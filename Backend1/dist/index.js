@@ -1,3 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+import { WebSocketServer } from 'ws';
+import { GameManager } from './GameManager.js';
+const wss = new WebSocketServer({ port: 8080 });
+const gamemanager = new GameManager();
+wss.on('connection', function connection(ws) {
+    gamemanager.addUser(ws);
+    wss.on("disconnect", () => {
+        gamemanager.removeUser(ws);
+    });
+});
 //# sourceMappingURL=index.js.map
