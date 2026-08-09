@@ -50,16 +50,13 @@ export class Game {
         }
         //if Game is not Over
         // if even turn measn playr 1 is moved now your turn 
-        console.log("HELLO");
         if (this.moveCount % 2 == 0) {
-            console.log("PLAYER 1");
             this.player2.send(JSON.stringify({
                 type: MOVE,
                 payload: move
             }));
         }
         else {
-            console.log("PLAYER 2");
             this.player1.send(JSON.stringify({
                 type: MOVE,
                 payload: move
