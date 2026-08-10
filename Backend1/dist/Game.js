@@ -30,6 +30,7 @@ export class Game {
     }
     makeMove(socket, move) {
         //make move
+        console.log(move);
         this.board.move(move);
         this.moveCount++;
         //check if game over or not

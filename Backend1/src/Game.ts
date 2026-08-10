@@ -38,6 +38,7 @@ export class Game{
     }){
 
         //make move
+        console.log(move);
         this.board.move(move);
         this.moveCount++;
 
