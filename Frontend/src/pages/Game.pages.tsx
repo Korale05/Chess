@@ -31,7 +31,7 @@ export function Game (){
                     console.log("Game initialized !");
                     break;
                 case MOVE : 
-                    
+
                     const move = message.payload;
                     console.log("Move!");
                     console.log(move);
