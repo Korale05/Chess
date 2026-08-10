@@ -51,18 +51,14 @@ export class Game {
         }
         //if Game is not Over
         // if even turn measn playr 1 is moved now your turn 
-        if (this.moveCount % 2 == 0) {
-            this.player2.send(JSON.stringify({
-                type: MOVE,
-                payload: move
-            }));
-        }
-        else {
-            this.player1.send(JSON.stringify({
-                type: MOVE,
-                payload: move
-            }));
-        }
+        this.player2.send(JSON.stringify({
+            type: MOVE,
+            payload: move
+        }));
+        this.player1.send(JSON.stringify({
+            type: MOVE,
+            payload: move
+        }));
     }
 }
 //# sourceMappingURL=Game.js.map

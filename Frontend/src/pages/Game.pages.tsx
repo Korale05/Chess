@@ -13,6 +13,7 @@ export function Game (){
     const socket = useSocket();
     const [chess , setChess] = useState(new Chess());
     const [board , setBoard] = useState(chess.board());
+    const [started, setStarted] = useState(false);
 
     useEffect(()=>{
         if(!socket){
@@ -26,10 +27,15 @@ export function Game (){
                 case INIT_GAME : 
                     setChess(new Chess());
                     setBoard(chess.board());
+                    setStarted(true);
                     console.log("Game initialized !");
                     break;
                 case MOVE : 
-                    const move = message.move;
+                    
+                    const move = message.payload;
+                    console.log("Move!");
+                    console.log(move);
+                    console.log("Move ....");
                     chess.move(move);
                     setBoard(chess.board());
                     console.log("Move made !");
@@ -52,7 +58,7 @@ export function Game (){
                     </div>
                     {/* Game Controls */}
                     <div className="w-64 bg-slate-700 p-4">
-                        <button
+                        { !started && <button
                             onClick={() => {
                                 console.log("Sending Backend Init Request !");
                                 socket.send(
@@ -64,7 +70,7 @@ export function Game (){
                             className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700"
                         >
                             Play
-                        </button>
+                        </button>}
                     </div>
                 </div>
             </div>

@@ -2,6 +2,9 @@ import { type Color, type PieceSymbol, type Square } from "chess.js";
 import { useState } from "react";
 import { MOVE } from "../pages/Game.pages";
 
+
+const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
+
 export const ChessBoard = ({
   board,socket
 }: {
@@ -23,21 +26,25 @@ export const ChessBoard = ({
           {row.map((square, j) => (
             <div
               onClick={()=>{
+                const clickedSquare =  `${files[j]}${8-i}` as Square;
                 if(!from){
-                  setFrom(square?.square ?? null);
+                  setFrom(clickedSquare);
                 } else{
-                  setTo(square?.square ?? null);
-                  socket.send(JSON.stringify({
-                    type : MOVE,
-                    move : {
-                      from,
-                      to
-                    }
-                  }));
-                  console.log({
-                    from,
-                    to
-                  })
+                  const newTo = `${files[j]}${8-i}` as Square;
+                  console.log("From:", from);
+                  console.log("To:", newTo);
+
+                  socket.send(
+                    JSON.stringify({
+                        type: MOVE,
+                        move: {
+                            from: from,
+                            to: newTo
+                        }
+                    })
+                  );
+                  setFrom(null);
+                  setTo(newTo);
                 }
               }}
               key={j}
@@ -47,7 +54,16 @@ export const ChessBoard = ({
                   : "bg-white"
               }`}
             >
-              {square ? square.type : ""}
+              <div>
+                {square ? (
+                  <img
+                      src={`/pieces-svg/${square.color === "b"
+                          ? square.type
+                          : `${square.type.toUpperCase()} copy`
+                      }.svg`}
+                  />
+                ) : null}              
+              </div>
             </div>
           ))}
         </div>
