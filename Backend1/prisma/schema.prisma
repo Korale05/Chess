@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+
+  whiteGames   Game[]   @relation("WhitePlayer")
+  blackGames   Game[]   @relation("BlackPlayer")
+
+  moves        Move[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Game {
+  id            Int      @id @default(autoincrement())
+
+  whitePlayerId Int
+  blackPlayerId Int?
+
+  whitePlayer   User     @relation("WhitePlayer", fields: [whitePlayerId], references: [id])
+  blackPlayer   User?    @relation("BlackPlayer", fields: [blackPlayerId], references: [id])
+
+  status        GameStatus @default(WAITING)
+  winner        GameWinner?
+
+  moves         Move[]
+
+  createdAt     DateTime @default(now())
+  endedAt       DateTime?
+}
+
+model Move {
+  id        Int      @id @default(autoincrement())
+
+  gameId    Int
+  playerId  Int
+
+  game      Game     @relation(fields: [gameId], references: [id])
+  player    User     @relation(fields: [playerId], references: [id])
+
+  from      String
+  to        String
+  moveNumber Int
+
+  createdAt DateTime @default(now())
+}
+
+enum GameStatus {
+  WAITING
+  PLAYING
+  FINISHED
+}
+
+enum GameWinner {
+  WHITE
+  BLACK
+  DRAW
+}
