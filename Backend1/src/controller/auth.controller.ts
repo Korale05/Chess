@@ -222,7 +222,7 @@ export async function me(
             )
         }
 
-        return res.status(200).json(
+        return res.status(201).json(
             new ApiResponse(201,user)
         );
 

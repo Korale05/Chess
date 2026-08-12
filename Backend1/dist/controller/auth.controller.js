@@ -142,7 +142,7 @@ export async function me(req, res) {
         if (!user) {
             return res.json(new ApiError(401, "User not found !"));
         }
-        return res.status(200).json(new ApiResponse(201, user));
+        return res.status(201).json(new ApiResponse(201, user));
     }
     catch (error) {
         console.error(error);

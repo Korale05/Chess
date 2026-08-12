@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import chessBoard from "../assets/chatGpt Board.png";
+import axios from "axios";
 
 const KingSilhouette = ({ className }: { className?: string }) => (
   <svg
@@ -17,6 +18,22 @@ const KingSilhouette = ({ className }: { className?: string }) => (
 
 export const Landing = () => {
   const navigate = useNavigate();
+  const handlePlayOnline = async () => {
+    try {
+        const response = await axios.get(
+            "http://localhost:3000/api/auth/me",
+            {
+                withCredentials: true,
+            }
+        );
+
+        if (response.status === 200) {
+            navigate("/game");
+        }
+      } catch (error) {
+        navigate("/signin");
+      }
+  };
   return (
     <div
       className="relative h-screen w-screen overflow-hidden text-white"
@@ -44,11 +61,11 @@ export const Landing = () => {
           </span>
         </div>
 
-        <div className="flex items-center gap-6">
-          <a href="#" className="text-sm text-neutral-300 hover:text-white">
+        <div  className="flex items-center gap-6">
+          <a onClick= {()=> {navigate("/signin")}} href="#" className="text-sm text-neutral-300 hover:text-white">
             Login
           </a>
-          <button className="rounded-full border border-[#7fa650] px-5 py-1.5 text-sm font-semibold hover:bg-[#7fa650]/10">
+          <button onClick= {()=> {navigate("/signup")}}className="rounded-full border border-[#7fa650] px-5 py-1.5 text-sm font-semibold hover:bg-[#7fa650]/10">
             Sign Up
           </button>
         </div>
@@ -74,9 +91,7 @@ export const Landing = () => {
           Improve, compete, and enjoy the game.
         </p>
 
-        <button onClick= {()=>{
-          navigate("/game");
-        }}
+        <button onClick= {handlePlayOnline}
           className="group relative mt-7 flex h-[70px] w-[360px] max-w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-[#81b64c] font-bold text-white shadow-[0_10px_30px_rgba(129,182,76,0.25)] transition hover:-translate-y-0.5">
           <span className="text-lg">⚔</span> Play Online
           <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
