@@ -62,7 +62,7 @@ export const Landing = () => {
         </div>
 
         <div  className="flex items-center gap-6">
-          <a onClick= {()=> {navigate("/signin")}} href="#" className="text-sm text-neutral-300 hover:text-white">
+          <a onClick= {()=> {navigate("/signin")}} href="#" className="text-sm  text-neutral-300 hover:text-white">
             Login
           </a>
           <button onClick= {()=> {navigate("/signup")}}className="rounded-full border border-[#7fa650] px-5 py-1.5 text-sm font-semibold hover:bg-[#7fa650]/10">

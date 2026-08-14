@@ -50,18 +50,24 @@ export async function singin(req, res) {
         if (!email || !password) {
             return res.json(new ApiError(401, "Email or Password is Missing !"));
         }
+        console.log(email, " ", password);
         const user = await prisma.user.findUnique({
             where: {
                 email
             }
         });
+        console.log("Featch from database!");
+        console.log(user);
         if (!user) {
             return res.json(new ApiError(401, "Invalid Email or Password !"));
         }
+        console.log("checking password .....");
         const validPassword = await comparePassword(password, user.passwordHash);
+        console.log("Password check !");
         if (!validPassword) {
             return res.json(new ApiError(401, "Password is Wrong !"));
         }
+        console.log("Login successfully !");
         const accessToekn = generateAccessToken(user.id);
         const refreshToken = generateRefreshToken(user.id);
         res.cookie("accessToken", accessToekn, {

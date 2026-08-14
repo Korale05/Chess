@@ -1,12 +1,15 @@
 import { type Color, type PieceSymbol, type Square } from "chess.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MOVE } from "../pages/Game.pages";
+
+import { Chess } from "chess.js";
+
 
 
 const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 export const ChessBoard = ({
-  board,socket
+  board,socket , chess
 }: {
   board: ({
     square: Square;
@@ -14,60 +17,106 @@ export const ChessBoard = ({
     color: Color;
   } | null)[][];
   socket : WebSocket
+  chess :  Chess
 }) => {
-  const [from ,setFrom] = useState<Square | null>(null);
-  const [to, setTo] = useState<Square | null>(null);
+    const [from ,setFrom] = useState<Square | null>(null);
+    const [validMoves, setValidMoves] = useState<string[]>([]);
+  
+    useEffect(()=>{
+        if(!from){
+        setValidMoves([]);
+        return;
+        }
+        const moves = chess.moves({
+        square: from,
+        verbose : true
+        });
+        const destinations = moves.map(move=>move.to);
+        setValidMoves(destinations);
+    },[from,chess]);
+  
+    return (
+        <div>
+            {board.map((row,i)=>(
+                <div key={i} className="flex">
+                    {row.map((square,j)=>{
 
+                        //convert array position to chess position 
+                        const clickedSquare = `${files[j]}${8-i}` as Square;
 
-  return (
-    <div>
-      {board.map((row, i) => (
-        <div key={i} className="flex">
-          {row.map((square, j) => (
-            <div
-              onClick={()=>{
-                const clickedSquare =  `${files[j]}${8-i}` as Square;
-                if(!from){
-                  setFrom(clickedSquare);
-                } else{
-                  const newTo = `${files[j]}${8-i}` as Square;
-                  console.log("From:", from);
-                  console.log("To:", newTo);
+                        // Is this square a legal destination?
+                        const isValidMove = validMoves.includes(clickedSquare);
+                        
+                        console.log("checking valid move....");
+                        console.log(isValidMove);
+                        console.log("checked  valid move!");
 
-                  socket.send(
-                    JSON.stringify({
-                        type: MOVE,
-                        move: {
-                            from: from,
-                            to: newTo
-                        }
-                    })
-                  );
-                  setFrom(null);
-                  setTo(newTo);
-                }
-              }}
-              key={j}
-              className={`w-16 h-16 flex items-center justify-center ${
-                (i + j) % 2 === 0
-                  ? "bg-green-300"
-                  : "bg-white"
-              }`}
-            >
-              <div>
-                {square ? (
-                  <img
-                      src={`/pieces-svg/${square.color === "b"
-                          ? square.type
-                          : `${square.type.toUpperCase()} copy`
-                      }.svg`}
-                  />
-                ) : null}              
-              </div>
-            </div>
-          ))}
+                        return <div key={j}
+                            onClick = {()=>{
+                                // First Click the selected piece
+                                if(!from){
+                                    setFrom(clickedSquare);
+                                    return;
+                                }
+
+                                //if from already selected means you selected the to move
+                                const newTo = clickedSquare;
+
+                                
+
+                                console.log("From:", from);
+                                console.log("To:", newTo);
+
+                                socket.send(JSON.stringify({
+                                    type : MOVE,
+                                    move : {
+                                        from : from,
+                                        to : newTo
+                                    }
+                                }));
+                                
+                                setFrom(null);
+                                setValidMoves([]);
+                            }}
+                            className={`relative
+                                        w-16 h-16
+                                        flex
+                                        items-center
+                                        justify-center
+                                        ${
+                                            (i + j) % 2 === 0
+                                                ? "bg-green-300"
+                                                : "bg-white"
+                                        }
+                                    `}
+                            >
+                                {/* Chess piece */}
+                                    {square ? (
+                                        <img
+                                            src={`/pieces-svg/${
+                                                square.color === "b"
+                                                    ? square.type
+                                                    : `${square.type.toUpperCase()} copy`
+                                            }.svg`}
+                                        />
+                                    ) : null}
+                                
+                                {/* Valid move indicator */}
+                                    {isValidMove && (
+                                        <div
+                                            className="
+                                                absolute
+                                                w-4
+                                                h-4
+                                                rounded-full
+                                                bg-black/30
+                                            "
+                                        />
+                                    )}
+                        </div>
+                    })}
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 };

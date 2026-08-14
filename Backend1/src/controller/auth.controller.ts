@@ -24,6 +24,7 @@ export async function singup(
             new ApiError(404,"Username, email and password are required")
            )
         }
+        
         if (password.length < 6) {
             return res.status(400).json({
                 message: "Password must be at least 6 characters",
@@ -41,6 +42,7 @@ export async function singup(
                 new ApiResponse( 201,"Username or email already exists")
             )
         }
+        
         const passwordHash = await hashPassword(password);
 
         const user = await prisma.user.create({
@@ -56,7 +58,7 @@ export async function singup(
                 passwordHash : false
             }
         });
-
+        
         return res.json(
             new ApiResponse(201,user,"User Created Successfully !")
         )
@@ -80,6 +82,7 @@ export async function singin(
                 new ApiError(401,"Email or Password is Missing !")
             )
         }
+        console.log(email," " , password);
 
         const  user = await prisma.user.findUnique({
             where : {
@@ -87,19 +90,28 @@ export async function singin(
             }
         });
 
+        console.log("Featch from database!");
+
+        console.log(user);
+
         if(!user){
             return res.json(
                 new ApiError(401,"Invalid Email or Password !")
             )
         }
 
+        console.log("checking password .....");
         const validPassword = await comparePassword(password,user.passwordHash);
+
+        console.log("Password check !");
 
         if(!validPassword){
             return res.json(
                 new ApiError(401,"Password is Wrong !")
             )
         }
+
+        console.log("Login successfully !");
 
         const accessToekn = generateAccessToken(user.id);
         const refreshToken = generateRefreshToken(user.id);
@@ -126,6 +138,7 @@ export async function singin(
             new ApiResponse(201,reqUserInfo,"Signin Successfully !")
         )
 
+        
     }catch(error){
         return res.json(
             new ApiError(401,"Internal Server Error!")
