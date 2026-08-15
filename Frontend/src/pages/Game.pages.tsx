@@ -2,6 +2,8 @@ import { Chess } from "chess.js";
 import { ChessBoard } from "../components/ChessBoard.tsx";
 import { useSocket } from "../hooks/useSocket.tsx";
 import { useEffect, useRef, useState } from "react";
+import { PlayStartEndSound } from "../utils/startSound.ts";
+import { playMoveSound } from "../utils/sound.ts";
 
 // Message 
 export const INIT_GAME = "init_game";
@@ -25,10 +27,12 @@ export function Game() {
                     chessRef.current = new Chess();
                     setBoard(chessRef.current.board());
                     setStarted(true);
+                    PlayStartEndSound(true);
                     break;
                 case MOVE:
-                    chessRef.current.move(message.payload);
+                    const moveResult = chessRef.current.move(message.payload);
                     setBoard(chessRef.current.board());
+                    playMoveSound(moveResult,chessRef.current?.isCheck());
                     break;
                 case GAME_OVER:
                     break;
