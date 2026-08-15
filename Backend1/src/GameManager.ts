@@ -34,12 +34,12 @@ export class GameManager{
             if(messageParsed.type == INIT_GAME){
                 if(this.pendingUser){
                     //Start the game
-                    const game = new Game(this.pendingUser,{socket ,id});
+                    const game = new Game(this.pendingUser,{socket ,id ,color: "b"});
                     await game.createGameHandler();
                     this.games.push(game);
                     this.pendingUser = null;
                 }else{
-                    this.pendingUser = { id , socket};
+                    this.pendingUser = { id , socket ,color : "w"};
                 }
             }
             if(messageParsed.type == MOVE){

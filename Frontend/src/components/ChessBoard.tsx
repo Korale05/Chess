@@ -21,7 +21,8 @@ export const ChessBoard = ({
 }) => {
     const [from ,setFrom] = useState<Square | null>(null);
     const [validMoves, setValidMoves] = useState<string[]>([]);
-  
+    
+    
     useEffect(()=>{
         if(!from){
         setValidMoves([]);
@@ -45,51 +46,60 @@ export const ChessBoard = ({
                         const clickedSquare = `${files[j]}${8-i}` as Square;
 
                         // Is this square a legal destination?
-                        const isValidMove = validMoves.includes(clickedSquare);
-                        
+                        const isValidMove : boolean = validMoves.includes(clickedSquare);
+
                         console.log("checking valid move....");
                         console.log(isValidMove);
                         console.log("checked  valid move!");
 
                         return <div key={j}
-                            onClick = {()=>{
-                                // First Click the selected piece
-                                if(!from){
-                                    setFrom(clickedSquare);
-                                    return;
-                                }
-
-                                //if from already selected means you selected the to move
-                                const newTo = clickedSquare;
-
-                                
-
-                                console.log("From:", from);
-                                console.log("To:", newTo);
-
-                                socket.send(JSON.stringify({
-                                    type : MOVE,
-                                    move : {
-                                        from : from,
-                                        to : newTo
-                                    }
-                                }));
-                                
-                                setFrom(null);
-                                setValidMoves([]);
-                            }}
-                            className={`relative
-                                        w-16 h-16
-                                        flex
-                                        items-center
-                                        justify-center
-                                        ${
-                                            (i + j) % 2 === 0
-                                                ? "bg-green-300"
-                                                : "bg-white"
+                                    onClick = {()=>{
+                                        // First Click the selected piece  
+                                        if(!from){
+                                            const piece = chess.get(clickedSquare);
+                                            if(!(piece && piece.color == chess.turn()))return;
+                                            setFrom(clickedSquare);
+                                            return;
                                         }
-                                    `}
-                            >
+                                        
+                                        //if from already selected means you selected the to move
+                                        const newTo = clickedSquare;
+
+                                        //second click must be valid 
+                                        if(!validMoves.includes(newTo)){
+                                            //if second click is not valid
+                                            const piece = chess.get(newTo);
+                                            if(!(piece && piece.color == chess.turn()))return;
+                                            setFrom(newTo);
+                                            return;
+                                        }
+
+                                        console.log("From:", from);
+                                        console.log("To:", newTo);
+
+                                        socket.send(JSON.stringify({
+                                            type : MOVE,
+                                            move : {
+                                                from : from,
+                                                to : newTo
+                                            }
+                                        }));
+                                        
+                                        setFrom(null);
+                                        setValidMoves([]);
+                                    }}
+                                    className={`relative
+                                                w-16 h-16
+                                                flex
+                                                items-center
+                                                justify-center
+                                                ${ from == clickedSquare ? "bg-yellow-400" : 
+                                                    (i + j) % 2 === 0
+                                                        ? "bg-green-300"
+                                                        : "bg-white"
+                                                }
+                                            `}
+                                >
                                 {/* Chess piece */}
                                     {square ? (
                                         <img

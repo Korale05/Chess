@@ -2,6 +2,7 @@ import WebSocket from "ws";
 export interface player {
     id: number;
     socket: WebSocket;
+    color?: "w" | "b";
 }
 export declare class Game {
     player1: player;
@@ -14,6 +15,7 @@ export declare class Game {
     constructor(player1: player, player2: player, gameId?: string);
     createGameHandler(): Promise<void>;
     createGameInDb(): Promise<void>;
+    getPlayerBySocket(socket: WebSocket): player | null;
     makeMove(socket: WebSocket, move: {
         to: string;
         from: string;

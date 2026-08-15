@@ -3,6 +3,7 @@ import WebSocket from "ws";
 import { GAME_OVER, INIT_GAME, MOVE } from "./message.js";
 import { prisma } from "./db.js";
 import { randomUUID } from 'crypto';
+import { throws } from "assert";
 
 
 type GAME_STATUS = 'IN_PROGRESS' | 'COMPLETED' | 'ABANDONED' | 'TIME_UP' | 'PLAYER_EXIT';
@@ -10,9 +11,12 @@ type GAME_RESULT = "WHITE_WINS" | "BLACK_WINS" | "DRAW";
 
 export interface player {
     id : number,
-    socket : WebSocket
+    socket : WebSocket,
+    color? : "w" | "b" 
 }
-export class Game{
+
+
+export class Game {
     public player1 : player;
     public player2 : player;
     private board : Chess;
@@ -85,17 +89,31 @@ export class Game{
         });
         this.gameId = game.id;
     }
-    
+    getPlayerBySocket(socket : WebSocket){
+
+        if(this.player1.socket == socket)return this.player1;
+        else if(this.player2.socket == socket)return this.player2;
+        else return null;
+    }
     makeMove(socket : WebSocket,move : {
         to : string,
         from : string
     }){
 
-        //make move
-        console.log(move);
-        this.board.move(move);
-        this.moveCount++;
+        const playerCurrent = this.getPlayerBySocket(socket);
 
+        
+
+        try{
+            //make move
+            console.log(move);
+            this.board.move(move);
+            this.moveCount++;
+
+        }catch(error){
+            console.log(error);
+            return;
+        }
         //check if game over or not
         if(this.board.isGameOver()){
             //Send Game Over Message to Both Player
