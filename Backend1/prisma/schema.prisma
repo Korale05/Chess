@@ -15,9 +15,7 @@ model User {
 
   whiteGames   Game[]   @relation("WhitePlayer")
   blackGames   Game[]   @relation("BlackPlayer")
-
-  moves        Move[]
-
+  
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
@@ -33,6 +31,8 @@ model Game {
 
   status        GameStatus @default(WAITING)
   winner        GameWinner?
+  
+  currentFen    String
 
   moves         Move[]
 
@@ -44,16 +44,24 @@ model Move {
   id        Int      @id @default(autoincrement())
 
   gameId    Int
-  playerId  Int
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
 
-  game      Game     @relation(fields: [gameId], references: [id])
-  player    User     @relation(fields: [playerId], references: [id])
+  moveNumber Int
 
   from      String
   to        String
-  moveNumber Int
+
+  before    String
+  after     String
 
   createdAt DateTime @default(now())
+
+  timeTaken Int
+
+  san       String
+
+  @@index([gameId])
+  @@unique([gameId, moveNumber])
 }
 
 enum GameStatus {

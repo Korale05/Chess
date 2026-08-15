@@ -1,6 +1,8 @@
 import { Chess, Move } from "chess.js";
 import WebSocket from "ws";
 import { GAME_OVER, INIT_GAME, MOVE } from "./message.js";
+import { prisma } from "./db.js";
+import { randomUUID } from 'crypto';
 export class Game {
     player1;
     player2;
@@ -8,25 +10,68 @@ export class Game {
     moves;
     startTime;
     moveCount;
-    constructor(player1, player2) {
+    gameId;
+    constructor(player1, player2, gameId) {
         this.player1 = player1;
         this.player2 = player2;
         this.board = new Chess();
         this.moves = [];
         this.startTime = new Date;
         this.moveCount = 1;
-        this.player1.send(JSON.stringify({
-            type: INIT_GAME,
-            payload: {
-                color: "white"
+        this.gameId = null;
+    }
+    async createGameHandler() {
+        try {
+            await this.createGameInDb();
+        }
+        catch (error) {
+            console.log(error);
+            return;
+        }
+        const users = await prisma.user.findMany({
+            where: {
+                id: {
+                    in: [this.player1.id, this.player2.id]
+                }
             }
-        }));
-        this.player2.send(JSON.stringify({
-            type: INIT_GAME,
-            payload: {
-                color: "Black"
-            }
-        }));
+        });
+        if (this.player1)
+            this.player1.socket.send(JSON.stringify({
+                type: INIT_GAME,
+                payload: {
+                    color: "white",
+                    whiltePlayer: users.find(user => user.id == this.player1.id)?.username,
+                    BlackPlayer: users.find(user => user.id == this.player2.id)?.username
+                }
+            }));
+        if (this.player2)
+            this.player2.socket.send(JSON.stringify({
+                type: INIT_GAME,
+                payload: {
+                    color: "Black",
+                    whiltePlayer: users.find(user => user.id == this.player1.id)?.username,
+                    BlackPlayer: users.find(user => user.id == this.player2.id)?.username
+                }
+            }));
+    }
+    async createGameInDb() {
+        const game = await prisma.game.create({
+            data: {
+                status: 'WAITING',
+                currentFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+                whitePlayer: {
+                    connect: {
+                        id: this.player1.id,
+                    },
+                },
+                blackPlayer: {
+                    connect: {
+                        id: this.player2.id,
+                    },
+                },
+            },
+        });
+        this.gameId = game.id;
     }
     makeMove(socket, move) {
         //make move
@@ -36,13 +81,13 @@ export class Game {
         //check if game over or not
         if (this.board.isGameOver()) {
             //Send Game Over Message to Both Player
-            this.player1.send(JSON.stringify({
+            this.player1.socket.send(JSON.stringify({
                 type: GAME_OVER,
                 payload: {
                     winner: this.board.turn() == 'w' ? "black" : "white"
                 }
             }));
-            this.player2.send(JSON.stringify({
+            this.player2.socket.send(JSON.stringify({
                 type: GAME_OVER,
                 payload: {
                     winner: this.board.turn() == 'w' ? "black" : "white"
@@ -51,11 +96,11 @@ export class Game {
         }
         //if Game is not Over
         // if even turn measn playr 1 is moved now your turn 
-        this.player2.send(JSON.stringify({
+        this.player2.socket.send(JSON.stringify({
             type: MOVE,
             payload: move
         }));
-        this.player1.send(JSON.stringify({
+        this.player1.socket.send(JSON.stringify({
             type: MOVE,
             payload: move
         }));

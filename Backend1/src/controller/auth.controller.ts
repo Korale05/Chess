@@ -116,16 +116,18 @@ export async function singin(
         const accessToekn = generateAccessToken(user.id);
         const refreshToken = generateRefreshToken(user.id);
 
-        res.cookie("accessToken",accessToekn,{
+        res.cookie("accessToken", accessToekn, {
             httpOnly: true,
             secure: false,
             sameSite: "lax",
-            maxAge: 15 * 60 * 1000, // 15 min
+            path: "/",              // <-- add this
+            maxAge: 15 * 60 * 1000,
         });
-        res.cookie("refreshToken",refreshToken,{
+        res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: false,
             sameSite: "lax",
+            path: "/",               // <-- add this
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 

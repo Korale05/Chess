@@ -29,6 +29,7 @@ export type GameMinAggregateOutputType = {
     blackPlayerId: number | null;
     status: $Enums.GameStatus | null;
     winner: $Enums.GameWinner | null;
+    currentFen: string | null;
     createdAt: Date | null;
     endedAt: Date | null;
 };
@@ -38,6 +39,7 @@ export type GameMaxAggregateOutputType = {
     blackPlayerId: number | null;
     status: $Enums.GameStatus | null;
     winner: $Enums.GameWinner | null;
+    currentFen: string | null;
     createdAt: Date | null;
     endedAt: Date | null;
 };
@@ -47,6 +49,7 @@ export type GameCountAggregateOutputType = {
     blackPlayerId: number;
     status: number;
     winner: number;
+    currentFen: number;
     createdAt: number;
     endedAt: number;
     _all: number;
@@ -67,6 +70,7 @@ export type GameMinAggregateInputType = {
     blackPlayerId?: true;
     status?: true;
     winner?: true;
+    currentFen?: true;
     createdAt?: true;
     endedAt?: true;
 };
@@ -76,6 +80,7 @@ export type GameMaxAggregateInputType = {
     blackPlayerId?: true;
     status?: true;
     winner?: true;
+    currentFen?: true;
     createdAt?: true;
     endedAt?: true;
 };
@@ -85,6 +90,7 @@ export type GameCountAggregateInputType = {
     blackPlayerId?: true;
     status?: true;
     winner?: true;
+    currentFen?: true;
     createdAt?: true;
     endedAt?: true;
     _all?: true;
@@ -171,6 +177,7 @@ export type GameGroupByOutputType = {
     blackPlayerId: number | null;
     status: $Enums.GameStatus;
     winner: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt: Date;
     endedAt: Date | null;
     _count: GameCountAggregateOutputType | null;
@@ -191,6 +198,7 @@ export type GameWhereInput = {
     blackPlayerId?: Prisma.IntNullableFilter<"Game"> | number | null;
     status?: Prisma.EnumGameStatusFilter<"Game"> | $Enums.GameStatus;
     winner?: Prisma.EnumGameWinnerNullableFilter<"Game"> | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFilter<"Game"> | string;
     createdAt?: Prisma.DateTimeFilter<"Game"> | Date | string;
     endedAt?: Prisma.DateTimeNullableFilter<"Game"> | Date | string | null;
     whitePlayer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
@@ -203,6 +211,7 @@ export type GameOrderByWithRelationInput = {
     blackPlayerId?: Prisma.SortOrderInput | Prisma.SortOrder;
     status?: Prisma.SortOrder;
     winner?: Prisma.SortOrderInput | Prisma.SortOrder;
+    currentFen?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     endedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
     whitePlayer?: Prisma.UserOrderByWithRelationInput;
@@ -218,6 +227,7 @@ export type GameWhereUniqueInput = Prisma.AtLeast<{
     blackPlayerId?: Prisma.IntNullableFilter<"Game"> | number | null;
     status?: Prisma.EnumGameStatusFilter<"Game"> | $Enums.GameStatus;
     winner?: Prisma.EnumGameWinnerNullableFilter<"Game"> | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFilter<"Game"> | string;
     createdAt?: Prisma.DateTimeFilter<"Game"> | Date | string;
     endedAt?: Prisma.DateTimeNullableFilter<"Game"> | Date | string | null;
     whitePlayer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
@@ -230,6 +240,7 @@ export type GameOrderByWithAggregationInput = {
     blackPlayerId?: Prisma.SortOrderInput | Prisma.SortOrder;
     status?: Prisma.SortOrder;
     winner?: Prisma.SortOrderInput | Prisma.SortOrder;
+    currentFen?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     endedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
     _count?: Prisma.GameCountOrderByAggregateInput;
@@ -247,12 +258,14 @@ export type GameScalarWhereWithAggregatesInput = {
     blackPlayerId?: Prisma.IntNullableWithAggregatesFilter<"Game"> | number | null;
     status?: Prisma.EnumGameStatusWithAggregatesFilter<"Game"> | $Enums.GameStatus;
     winner?: Prisma.EnumGameWinnerNullableWithAggregatesFilter<"Game"> | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringWithAggregatesFilter<"Game"> | string;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Game"> | Date | string;
     endedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Game"> | Date | string | null;
 };
 export type GameCreateInput = {
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
     whitePlayer: Prisma.UserCreateNestedOneWithoutWhiteGamesInput;
@@ -265,6 +278,7 @@ export type GameUncheckedCreateInput = {
     blackPlayerId?: number | null;
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
     moves?: Prisma.MoveUncheckedCreateNestedManyWithoutGameInput;
@@ -272,6 +286,7 @@ export type GameUncheckedCreateInput = {
 export type GameUpdateInput = {
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     whitePlayer?: Prisma.UserUpdateOneRequiredWithoutWhiteGamesNestedInput;
@@ -284,6 +299,7 @@ export type GameUncheckedUpdateInput = {
     blackPlayerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     moves?: Prisma.MoveUncheckedUpdateManyWithoutGameNestedInput;
@@ -294,12 +310,14 @@ export type GameCreateManyInput = {
     blackPlayerId?: number | null;
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
 };
 export type GameUpdateManyMutationInput = {
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
@@ -309,6 +327,7 @@ export type GameUncheckedUpdateManyInput = {
     blackPlayerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
@@ -326,6 +345,7 @@ export type GameCountOrderByAggregateInput = {
     blackPlayerId?: Prisma.SortOrder;
     status?: Prisma.SortOrder;
     winner?: Prisma.SortOrder;
+    currentFen?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     endedAt?: Prisma.SortOrder;
 };
@@ -340,6 +360,7 @@ export type GameMaxOrderByAggregateInput = {
     blackPlayerId?: Prisma.SortOrder;
     status?: Prisma.SortOrder;
     winner?: Prisma.SortOrder;
+    currentFen?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     endedAt?: Prisma.SortOrder;
 };
@@ -349,6 +370,7 @@ export type GameMinOrderByAggregateInput = {
     blackPlayerId?: Prisma.SortOrder;
     status?: Prisma.SortOrder;
     winner?: Prisma.SortOrder;
+    currentFen?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     endedAt?: Prisma.SortOrder;
 };
@@ -468,6 +490,7 @@ export type GameUpdateOneRequiredWithoutMovesNestedInput = {
 export type GameCreateWithoutWhitePlayerInput = {
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
     blackPlayer?: Prisma.UserCreateNestedOneWithoutBlackGamesInput;
@@ -478,6 +501,7 @@ export type GameUncheckedCreateWithoutWhitePlayerInput = {
     blackPlayerId?: number | null;
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
     moves?: Prisma.MoveUncheckedCreateNestedManyWithoutGameInput;
@@ -493,6 +517,7 @@ export type GameCreateManyWhitePlayerInputEnvelope = {
 export type GameCreateWithoutBlackPlayerInput = {
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
     whitePlayer: Prisma.UserCreateNestedOneWithoutWhiteGamesInput;
@@ -503,6 +528,7 @@ export type GameUncheckedCreateWithoutBlackPlayerInput = {
     whitePlayerId: number;
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
     moves?: Prisma.MoveUncheckedCreateNestedManyWithoutGameInput;
@@ -537,6 +563,7 @@ export type GameScalarWhereInput = {
     blackPlayerId?: Prisma.IntNullableFilter<"Game"> | number | null;
     status?: Prisma.EnumGameStatusFilter<"Game"> | $Enums.GameStatus;
     winner?: Prisma.EnumGameWinnerNullableFilter<"Game"> | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFilter<"Game"> | string;
     createdAt?: Prisma.DateTimeFilter<"Game"> | Date | string;
     endedAt?: Prisma.DateTimeNullableFilter<"Game"> | Date | string | null;
 };
@@ -556,6 +583,7 @@ export type GameUpdateManyWithWhereWithoutBlackPlayerInput = {
 export type GameCreateWithoutMovesInput = {
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
     whitePlayer: Prisma.UserCreateNestedOneWithoutWhiteGamesInput;
@@ -567,6 +595,7 @@ export type GameUncheckedCreateWithoutMovesInput = {
     blackPlayerId?: number | null;
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
 };
@@ -586,6 +615,7 @@ export type GameUpdateToOneWithWhereWithoutMovesInput = {
 export type GameUpdateWithoutMovesInput = {
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     whitePlayer?: Prisma.UserUpdateOneRequiredWithoutWhiteGamesNestedInput;
@@ -597,6 +627,7 @@ export type GameUncheckedUpdateWithoutMovesInput = {
     blackPlayerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
@@ -605,6 +636,7 @@ export type GameCreateManyWhitePlayerInput = {
     blackPlayerId?: number | null;
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
 };
@@ -613,12 +645,14 @@ export type GameCreateManyBlackPlayerInput = {
     whitePlayerId: number;
     status?: $Enums.GameStatus;
     winner?: $Enums.GameWinner | null;
+    currentFen: string;
     createdAt?: Date | string;
     endedAt?: Date | string | null;
 };
 export type GameUpdateWithoutWhitePlayerInput = {
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     blackPlayer?: Prisma.UserUpdateOneWithoutBlackGamesNestedInput;
@@ -629,6 +663,7 @@ export type GameUncheckedUpdateWithoutWhitePlayerInput = {
     blackPlayerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     moves?: Prisma.MoveUncheckedUpdateManyWithoutGameNestedInput;
@@ -638,12 +673,14 @@ export type GameUncheckedUpdateManyWithoutWhitePlayerInput = {
     blackPlayerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
 export type GameUpdateWithoutBlackPlayerInput = {
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     whitePlayer?: Prisma.UserUpdateOneRequiredWithoutWhiteGamesNestedInput;
@@ -654,6 +691,7 @@ export type GameUncheckedUpdateWithoutBlackPlayerInput = {
     whitePlayerId?: Prisma.IntFieldUpdateOperationsInput | number;
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     moves?: Prisma.MoveUncheckedUpdateManyWithoutGameNestedInput;
@@ -663,6 +701,7 @@ export type GameUncheckedUpdateManyWithoutBlackPlayerInput = {
     whitePlayerId?: Prisma.IntFieldUpdateOperationsInput | number;
     status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus;
     winner?: Prisma.NullableEnumGameWinnerFieldUpdateOperationsInput | $Enums.GameWinner | null;
+    currentFen?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
@@ -696,6 +735,7 @@ export type GameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     blackPlayerId?: boolean;
     status?: boolean;
     winner?: boolean;
+    currentFen?: boolean;
     createdAt?: boolean;
     endedAt?: boolean;
     whitePlayer?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -709,6 +749,7 @@ export type GameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
     blackPlayerId?: boolean;
     status?: boolean;
     winner?: boolean;
+    currentFen?: boolean;
     createdAt?: boolean;
     endedAt?: boolean;
     whitePlayer?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -720,6 +761,7 @@ export type GameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
     blackPlayerId?: boolean;
     status?: boolean;
     winner?: boolean;
+    currentFen?: boolean;
     createdAt?: boolean;
     endedAt?: boolean;
     whitePlayer?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -731,10 +773,11 @@ export type GameSelectScalar = {
     blackPlayerId?: boolean;
     status?: boolean;
     winner?: boolean;
+    currentFen?: boolean;
     createdAt?: boolean;
     endedAt?: boolean;
 };
-export type GameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "whitePlayerId" | "blackPlayerId" | "status" | "winner" | "createdAt" | "endedAt", ExtArgs["result"]["game"]>;
+export type GameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "whitePlayerId" | "blackPlayerId" | "status" | "winner" | "currentFen" | "createdAt" | "endedAt", ExtArgs["result"]["game"]>;
 export type GameInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     whitePlayer?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     blackPlayer?: boolean | Prisma.Game$blackPlayerArgs<ExtArgs>;
@@ -762,6 +805,7 @@ export type $GamePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
         blackPlayerId: number | null;
         status: $Enums.GameStatus;
         winner: $Enums.GameWinner | null;
+        currentFen: string;
         createdAt: Date;
         endedAt: Date | null;
     }, ExtArgs["result"]["game"]>;
@@ -1126,6 +1170,7 @@ export interface GameFieldRefs {
     readonly blackPlayerId: Prisma.FieldRef<"Game", 'Int'>;
     readonly status: Prisma.FieldRef<"Game", 'GameStatus'>;
     readonly winner: Prisma.FieldRef<"Game", 'GameWinner'>;
+    readonly currentFen: Prisma.FieldRef<"Game", 'String'>;
     readonly createdAt: Prisma.FieldRef<"Game", 'DateTime'>;
     readonly endedAt: Prisma.FieldRef<"Game", 'DateTime'>;
 }

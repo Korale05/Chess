@@ -178,7 +178,6 @@ export type UserWhereInput = {
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     whiteGames?: Prisma.GameListRelationFilter;
     blackGames?: Prisma.GameListRelationFilter;
-    moves?: Prisma.MoveListRelationFilter;
 };
 export type UserOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -189,7 +188,6 @@ export type UserOrderByWithRelationInput = {
     updatedAt?: Prisma.SortOrder;
     whiteGames?: Prisma.GameOrderByRelationAggregateInput;
     blackGames?: Prisma.GameOrderByRelationAggregateInput;
-    moves?: Prisma.MoveOrderByRelationAggregateInput;
 };
 export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: number;
@@ -203,7 +201,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     whiteGames?: Prisma.GameListRelationFilter;
     blackGames?: Prisma.GameListRelationFilter;
-    moves?: Prisma.MoveListRelationFilter;
 }, "id" | "username" | "email">;
 export type UserOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -237,7 +234,6 @@ export type UserCreateInput = {
     updatedAt?: Date | string;
     whiteGames?: Prisma.GameCreateNestedManyWithoutWhitePlayerInput;
     blackGames?: Prisma.GameCreateNestedManyWithoutBlackPlayerInput;
-    moves?: Prisma.MoveCreateNestedManyWithoutPlayerInput;
 };
 export type UserUncheckedCreateInput = {
     id?: number;
@@ -248,7 +244,6 @@ export type UserUncheckedCreateInput = {
     updatedAt?: Date | string;
     whiteGames?: Prisma.GameUncheckedCreateNestedManyWithoutWhitePlayerInput;
     blackGames?: Prisma.GameUncheckedCreateNestedManyWithoutBlackPlayerInput;
-    moves?: Prisma.MoveUncheckedCreateNestedManyWithoutPlayerInput;
 };
 export type UserUpdateInput = {
     username?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -258,7 +253,6 @@ export type UserUpdateInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     whiteGames?: Prisma.GameUpdateManyWithoutWhitePlayerNestedInput;
     blackGames?: Prisma.GameUpdateManyWithoutBlackPlayerNestedInput;
-    moves?: Prisma.MoveUpdateManyWithoutPlayerNestedInput;
 };
 export type UserUncheckedUpdateInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -269,7 +263,6 @@ export type UserUncheckedUpdateInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     whiteGames?: Prisma.GameUncheckedUpdateManyWithoutWhitePlayerNestedInput;
     blackGames?: Prisma.GameUncheckedUpdateManyWithoutBlackPlayerNestedInput;
-    moves?: Prisma.MoveUncheckedUpdateManyWithoutPlayerNestedInput;
 };
 export type UserCreateManyInput = {
     id?: number;
@@ -371,18 +364,6 @@ export type UserUpdateOneWithoutBlackGamesNestedInput = {
     connect?: Prisma.UserWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBlackGamesInput, Prisma.UserUpdateWithoutBlackGamesInput>, Prisma.UserUncheckedUpdateWithoutBlackGamesInput>;
 };
-export type UserCreateNestedOneWithoutMovesInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutMovesInput, Prisma.UserUncheckedCreateWithoutMovesInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutMovesInput;
-    connect?: Prisma.UserWhereUniqueInput;
-};
-export type UserUpdateOneRequiredWithoutMovesNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutMovesInput, Prisma.UserUncheckedCreateWithoutMovesInput>;
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutMovesInput;
-    upsert?: Prisma.UserUpsertWithoutMovesInput;
-    connect?: Prisma.UserWhereUniqueInput;
-    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMovesInput, Prisma.UserUpdateWithoutMovesInput>, Prisma.UserUncheckedUpdateWithoutMovesInput>;
-};
 export type UserCreateWithoutWhiteGamesInput = {
     username: string;
     email: string;
@@ -390,7 +371,6 @@ export type UserCreateWithoutWhiteGamesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     blackGames?: Prisma.GameCreateNestedManyWithoutBlackPlayerInput;
-    moves?: Prisma.MoveCreateNestedManyWithoutPlayerInput;
 };
 export type UserUncheckedCreateWithoutWhiteGamesInput = {
     id?: number;
@@ -400,7 +380,6 @@ export type UserUncheckedCreateWithoutWhiteGamesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     blackGames?: Prisma.GameUncheckedCreateNestedManyWithoutBlackPlayerInput;
-    moves?: Prisma.MoveUncheckedCreateNestedManyWithoutPlayerInput;
 };
 export type UserCreateOrConnectWithoutWhiteGamesInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -413,7 +392,6 @@ export type UserCreateWithoutBlackGamesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     whiteGames?: Prisma.GameCreateNestedManyWithoutWhitePlayerInput;
-    moves?: Prisma.MoveCreateNestedManyWithoutPlayerInput;
 };
 export type UserUncheckedCreateWithoutBlackGamesInput = {
     id?: number;
@@ -423,7 +401,6 @@ export type UserUncheckedCreateWithoutBlackGamesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     whiteGames?: Prisma.GameUncheckedCreateNestedManyWithoutWhitePlayerInput;
-    moves?: Prisma.MoveUncheckedCreateNestedManyWithoutPlayerInput;
 };
 export type UserCreateOrConnectWithoutBlackGamesInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -445,7 +422,6 @@ export type UserUpdateWithoutWhiteGamesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     blackGames?: Prisma.GameUpdateManyWithoutBlackPlayerNestedInput;
-    moves?: Prisma.MoveUpdateManyWithoutPlayerNestedInput;
 };
 export type UserUncheckedUpdateWithoutWhiteGamesInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -455,7 +431,6 @@ export type UserUncheckedUpdateWithoutWhiteGamesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     blackGames?: Prisma.GameUncheckedUpdateManyWithoutBlackPlayerNestedInput;
-    moves?: Prisma.MoveUncheckedUpdateManyWithoutPlayerNestedInput;
 };
 export type UserUpsertWithoutBlackGamesInput = {
     update: Prisma.XOR<Prisma.UserUpdateWithoutBlackGamesInput, Prisma.UserUncheckedUpdateWithoutBlackGamesInput>;
@@ -473,7 +448,6 @@ export type UserUpdateWithoutBlackGamesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     whiteGames?: Prisma.GameUpdateManyWithoutWhitePlayerNestedInput;
-    moves?: Prisma.MoveUpdateManyWithoutPlayerNestedInput;
 };
 export type UserUncheckedUpdateWithoutBlackGamesInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -483,58 +457,6 @@ export type UserUncheckedUpdateWithoutBlackGamesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     whiteGames?: Prisma.GameUncheckedUpdateManyWithoutWhitePlayerNestedInput;
-    moves?: Prisma.MoveUncheckedUpdateManyWithoutPlayerNestedInput;
-};
-export type UserCreateWithoutMovesInput = {
-    username: string;
-    email: string;
-    passwordHash: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    whiteGames?: Prisma.GameCreateNestedManyWithoutWhitePlayerInput;
-    blackGames?: Prisma.GameCreateNestedManyWithoutBlackPlayerInput;
-};
-export type UserUncheckedCreateWithoutMovesInput = {
-    id?: number;
-    username: string;
-    email: string;
-    passwordHash: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    whiteGames?: Prisma.GameUncheckedCreateNestedManyWithoutWhitePlayerInput;
-    blackGames?: Prisma.GameUncheckedCreateNestedManyWithoutBlackPlayerInput;
-};
-export type UserCreateOrConnectWithoutMovesInput = {
-    where: Prisma.UserWhereUniqueInput;
-    create: Prisma.XOR<Prisma.UserCreateWithoutMovesInput, Prisma.UserUncheckedCreateWithoutMovesInput>;
-};
-export type UserUpsertWithoutMovesInput = {
-    update: Prisma.XOR<Prisma.UserUpdateWithoutMovesInput, Prisma.UserUncheckedUpdateWithoutMovesInput>;
-    create: Prisma.XOR<Prisma.UserCreateWithoutMovesInput, Prisma.UserUncheckedCreateWithoutMovesInput>;
-    where?: Prisma.UserWhereInput;
-};
-export type UserUpdateToOneWithWhereWithoutMovesInput = {
-    where?: Prisma.UserWhereInput;
-    data: Prisma.XOR<Prisma.UserUpdateWithoutMovesInput, Prisma.UserUncheckedUpdateWithoutMovesInput>;
-};
-export type UserUpdateWithoutMovesInput = {
-    username?: Prisma.StringFieldUpdateOperationsInput | string;
-    email?: Prisma.StringFieldUpdateOperationsInput | string;
-    passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    whiteGames?: Prisma.GameUpdateManyWithoutWhitePlayerNestedInput;
-    blackGames?: Prisma.GameUpdateManyWithoutBlackPlayerNestedInput;
-};
-export type UserUncheckedUpdateWithoutMovesInput = {
-    id?: Prisma.IntFieldUpdateOperationsInput | number;
-    username?: Prisma.StringFieldUpdateOperationsInput | string;
-    email?: Prisma.StringFieldUpdateOperationsInput | string;
-    passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    whiteGames?: Prisma.GameUncheckedUpdateManyWithoutWhitePlayerNestedInput;
-    blackGames?: Prisma.GameUncheckedUpdateManyWithoutBlackPlayerNestedInput;
 };
 /**
  * Count Type UserCountOutputType
@@ -542,12 +464,10 @@ export type UserUncheckedUpdateWithoutMovesInput = {
 export type UserCountOutputType = {
     whiteGames: number;
     blackGames: number;
-    moves: number;
 };
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     whiteGames?: boolean | UserCountOutputTypeCountWhiteGamesArgs;
     blackGames?: boolean | UserCountOutputTypeCountBlackGamesArgs;
-    moves?: boolean | UserCountOutputTypeCountMovesArgs;
 };
 /**
  * UserCountOutputType without action
@@ -570,12 +490,6 @@ export type UserCountOutputTypeCountWhiteGamesArgs<ExtArgs extends runtime.Types
 export type UserCountOutputTypeCountBlackGamesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.GameWhereInput;
 };
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountMovesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.MoveWhereInput;
-};
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     username?: boolean;
@@ -585,7 +499,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     updatedAt?: boolean;
     whiteGames?: boolean | Prisma.User$whiteGamesArgs<ExtArgs>;
     blackGames?: boolean | Prisma.User$blackGamesArgs<ExtArgs>;
-    moves?: boolean | Prisma.User$movesArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -616,7 +529,6 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     whiteGames?: boolean | Prisma.User$whiteGamesArgs<ExtArgs>;
     blackGames?: boolean | Prisma.User$blackGamesArgs<ExtArgs>;
-    moves?: boolean | Prisma.User$movesArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -626,7 +538,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     objects: {
         whiteGames: Prisma.$GamePayload<ExtArgs>[];
         blackGames: Prisma.$GamePayload<ExtArgs>[];
-        moves: Prisma.$MovePayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: number;
@@ -966,7 +877,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
     readonly [Symbol.toStringTag]: "PrismaPromise";
     whiteGames<T extends Prisma.User$whiteGamesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$whiteGamesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     blackGames<T extends Prisma.User$blackGamesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$blackGamesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    moves<T extends Prisma.User$movesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$movesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MovePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1418,29 +1328,6 @@ export type User$blackGamesArgs<ExtArgs extends runtime.Types.Extensions.Interna
     take?: number;
     skip?: number;
     distinct?: Prisma.GameScalarFieldEnum | Prisma.GameScalarFieldEnum[];
-};
-/**
- * User.moves
- */
-export type User$movesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Move
-     */
-    select?: Prisma.MoveSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Move
-     */
-    omit?: Prisma.MoveOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Prisma.MoveInclude<ExtArgs> | null;
-    where?: Prisma.MoveWhereInput;
-    orderBy?: Prisma.MoveOrderByWithRelationInput | Prisma.MoveOrderByWithRelationInput[];
-    cursor?: Prisma.MoveWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?: Prisma.MoveScalarFieldEnum | Prisma.MoveScalarFieldEnum[];
 };
 /**
  * User without action

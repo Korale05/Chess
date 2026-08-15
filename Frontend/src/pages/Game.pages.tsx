@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { PlayStartEndSound } from "../utils/startSound.ts";
 import { playMoveSound } from "../utils/sound.ts";
 
+
 // Message 
 export const INIT_GAME = "init_game";
 export const MOVE = "move";
@@ -16,6 +17,8 @@ export function Game() {
     const chessRef = useRef(new Chess());
     const [board, setBoard] = useState(chessRef.current.board());
     const [started, setStarted] = useState(false);
+    const [user ,setUser] = useState<string | null>(null);
+    const [opponent ,setOpponent] = useState<string | null>(null);
 
     useEffect(() => {
         if (!socket) return;
@@ -28,11 +31,16 @@ export function Game() {
                     setBoard(chessRef.current.board());
                     setStarted(true);
                     PlayStartEndSound(true);
+                    console.log(message.payload.whiltePlayer);
+                    setUser(message.payload.whiltePlayer);
+                    console.log(message.type.BlackPlayer);
+                    setOpponent(message.payload.BlackPlayer)
                     break;
                 case MOVE:
                     const moveResult = chessRef.current.move(message.payload);
                     setBoard(chessRef.current.board());
                     playMoveSound(moveResult,chessRef.current?.isCheck());
+                    
                     break;
                 case GAME_OVER:
                     break;
@@ -42,22 +50,59 @@ export function Game() {
 
     if (!socket) return <div>Connecting....</div>;
     return (
-        <div className="flex justify-center">
-            <div className="w-full max-w-screen-lg pt-8">
-                <div className="flex w-full gap-8">
-                    <div className="w-fit bg-red-200">
+        <div className="flex justify-center items-center min-h-screen bg-slate-900">
+            <div className="flex gap-8">
+                {/* Board + player names, grouped as one unit */}
+                <div className="flex flex-col gap-3">
+                    {/* Top player (opponent) */}
+                    {
+                        opponent && (
+                            <div className="flex items-center justify-between px-1">
+                                <div className="flex items-center gap-2">
+                                    <img
+                                        src="/avatar.svg"
+                                        alt="avatar"
+                                        className="w-8 h-8 rounded-full bg-slate-600 object-cover"
+                                    />
+                                    <span className="text-white font-semibold">{opponent}</span>
+                                </div>
+                                <span className="text-slate-400 text-sm">10:00</span>
+                            </div>
+                        )
+                    }
+
+                    <div className="w-fit">
                         <ChessBoard socket={socket} board={board} chess={chessRef.current} />
                     </div>
-                    <div className="w-64 bg-slate-700 p-4">
-                        {!started && (
-                            <button
-                                onClick={() => socket.send(JSON.stringify({ type: INIT_GAME }))}
-                                className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700"
-                            >
-                                Play
-                            </button>
-                        )}
-                    </div>
+
+                    {/* Bottom player (you) */}
+                    {
+                        user && (
+                            <div className="flex items-center justify-between px-1">
+                                <div className="flex items-center gap-2">
+                                    <img
+                                        src="/avatar.svg"
+                                        alt="avatar"
+                                        className="w-8 h-8 rounded-full bg-slate-600 object-cover"
+                                    />
+                                    <span className="text-white font-semibold">{user}</span>
+                                </div>
+                                <span className="text-slate-400 text-sm">10:00</span>
+                            </div>
+                        )
+                    }
+                </div>
+
+                {/* Game Controls */}
+                <div className="w-64 bg-slate-700 p-4 rounded">
+                    {!started && (
+                        <button
+                            onClick={() => socket.send(JSON.stringify({ type: INIT_GAME }))}
+                            className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700"
+                        >
+                            Play
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

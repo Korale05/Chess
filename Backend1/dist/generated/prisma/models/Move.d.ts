@@ -15,81 +15,99 @@ export type AggregateMove = {
 export type MoveAvgAggregateOutputType = {
     id: number | null;
     gameId: number | null;
-    playerId: number | null;
     moveNumber: number | null;
+    timeTaken: number | null;
 };
 export type MoveSumAggregateOutputType = {
     id: number | null;
     gameId: number | null;
-    playerId: number | null;
     moveNumber: number | null;
+    timeTaken: number | null;
 };
 export type MoveMinAggregateOutputType = {
     id: number | null;
     gameId: number | null;
-    playerId: number | null;
+    moveNumber: number | null;
     from: string | null;
     to: string | null;
-    moveNumber: number | null;
+    before: string | null;
+    after: string | null;
     createdAt: Date | null;
+    timeTaken: number | null;
+    san: string | null;
 };
 export type MoveMaxAggregateOutputType = {
     id: number | null;
     gameId: number | null;
-    playerId: number | null;
+    moveNumber: number | null;
     from: string | null;
     to: string | null;
-    moveNumber: number | null;
+    before: string | null;
+    after: string | null;
     createdAt: Date | null;
+    timeTaken: number | null;
+    san: string | null;
 };
 export type MoveCountAggregateOutputType = {
     id: number;
     gameId: number;
-    playerId: number;
+    moveNumber: number;
     from: number;
     to: number;
-    moveNumber: number;
+    before: number;
+    after: number;
     createdAt: number;
+    timeTaken: number;
+    san: number;
     _all: number;
 };
 export type MoveAvgAggregateInputType = {
     id?: true;
     gameId?: true;
-    playerId?: true;
     moveNumber?: true;
+    timeTaken?: true;
 };
 export type MoveSumAggregateInputType = {
     id?: true;
     gameId?: true;
-    playerId?: true;
     moveNumber?: true;
+    timeTaken?: true;
 };
 export type MoveMinAggregateInputType = {
     id?: true;
     gameId?: true;
-    playerId?: true;
+    moveNumber?: true;
     from?: true;
     to?: true;
-    moveNumber?: true;
+    before?: true;
+    after?: true;
     createdAt?: true;
+    timeTaken?: true;
+    san?: true;
 };
 export type MoveMaxAggregateInputType = {
     id?: true;
     gameId?: true;
-    playerId?: true;
+    moveNumber?: true;
     from?: true;
     to?: true;
-    moveNumber?: true;
+    before?: true;
+    after?: true;
     createdAt?: true;
+    timeTaken?: true;
+    san?: true;
 };
 export type MoveCountAggregateInputType = {
     id?: true;
     gameId?: true;
-    playerId?: true;
+    moveNumber?: true;
     from?: true;
     to?: true;
-    moveNumber?: true;
+    before?: true;
+    after?: true;
     createdAt?: true;
+    timeTaken?: true;
+    san?: true;
     _all?: true;
 };
 export type MoveAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -171,11 +189,14 @@ export type MoveGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type MoveGroupByOutputType = {
     id: number;
     gameId: number;
-    playerId: number;
+    moveNumber: number;
     from: string;
     to: string;
-    moveNumber: number;
+    before: string;
+    after: string;
     createdAt: Date;
+    timeTaken: number;
+    san: string;
     _count: MoveCountAggregateOutputType | null;
     _avg: MoveAvgAggregateOutputType | null;
     _sum: MoveSumAggregateOutputType | null;
@@ -191,47 +212,57 @@ export type MoveWhereInput = {
     NOT?: Prisma.MoveWhereInput | Prisma.MoveWhereInput[];
     id?: Prisma.IntFilter<"Move"> | number;
     gameId?: Prisma.IntFilter<"Move"> | number;
-    playerId?: Prisma.IntFilter<"Move"> | number;
+    moveNumber?: Prisma.IntFilter<"Move"> | number;
     from?: Prisma.StringFilter<"Move"> | string;
     to?: Prisma.StringFilter<"Move"> | string;
-    moveNumber?: Prisma.IntFilter<"Move"> | number;
+    before?: Prisma.StringFilter<"Move"> | string;
+    after?: Prisma.StringFilter<"Move"> | string;
     createdAt?: Prisma.DateTimeFilter<"Move"> | Date | string;
+    timeTaken?: Prisma.IntFilter<"Move"> | number;
+    san?: Prisma.StringFilter<"Move"> | string;
     game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>;
-    player?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
 };
 export type MoveOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
     gameId?: Prisma.SortOrder;
-    playerId?: Prisma.SortOrder;
+    moveNumber?: Prisma.SortOrder;
     from?: Prisma.SortOrder;
     to?: Prisma.SortOrder;
-    moveNumber?: Prisma.SortOrder;
+    before?: Prisma.SortOrder;
+    after?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    timeTaken?: Prisma.SortOrder;
+    san?: Prisma.SortOrder;
     game?: Prisma.GameOrderByWithRelationInput;
-    player?: Prisma.UserOrderByWithRelationInput;
 };
 export type MoveWhereUniqueInput = Prisma.AtLeast<{
     id?: number;
+    gameId_moveNumber?: Prisma.MoveGameIdMoveNumberCompoundUniqueInput;
     AND?: Prisma.MoveWhereInput | Prisma.MoveWhereInput[];
     OR?: Prisma.MoveWhereInput[];
     NOT?: Prisma.MoveWhereInput | Prisma.MoveWhereInput[];
     gameId?: Prisma.IntFilter<"Move"> | number;
-    playerId?: Prisma.IntFilter<"Move"> | number;
+    moveNumber?: Prisma.IntFilter<"Move"> | number;
     from?: Prisma.StringFilter<"Move"> | string;
     to?: Prisma.StringFilter<"Move"> | string;
-    moveNumber?: Prisma.IntFilter<"Move"> | number;
+    before?: Prisma.StringFilter<"Move"> | string;
+    after?: Prisma.StringFilter<"Move"> | string;
     createdAt?: Prisma.DateTimeFilter<"Move"> | Date | string;
+    timeTaken?: Prisma.IntFilter<"Move"> | number;
+    san?: Prisma.StringFilter<"Move"> | string;
     game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>;
-    player?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
-}, "id">;
+}, "id" | "gameId_moveNumber">;
 export type MoveOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     gameId?: Prisma.SortOrder;
-    playerId?: Prisma.SortOrder;
+    moveNumber?: Prisma.SortOrder;
     from?: Prisma.SortOrder;
     to?: Prisma.SortOrder;
-    moveNumber?: Prisma.SortOrder;
+    before?: Prisma.SortOrder;
+    after?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    timeTaken?: Prisma.SortOrder;
+    san?: Prisma.SortOrder;
     _count?: Prisma.MoveCountOrderByAggregateInput;
     _avg?: Prisma.MoveAvgOrderByAggregateInput;
     _max?: Prisma.MoveMaxOrderByAggregateInput;
@@ -244,69 +275,94 @@ export type MoveScalarWhereWithAggregatesInput = {
     NOT?: Prisma.MoveScalarWhereWithAggregatesInput | Prisma.MoveScalarWhereWithAggregatesInput[];
     id?: Prisma.IntWithAggregatesFilter<"Move"> | number;
     gameId?: Prisma.IntWithAggregatesFilter<"Move"> | number;
-    playerId?: Prisma.IntWithAggregatesFilter<"Move"> | number;
+    moveNumber?: Prisma.IntWithAggregatesFilter<"Move"> | number;
     from?: Prisma.StringWithAggregatesFilter<"Move"> | string;
     to?: Prisma.StringWithAggregatesFilter<"Move"> | string;
-    moveNumber?: Prisma.IntWithAggregatesFilter<"Move"> | number;
+    before?: Prisma.StringWithAggregatesFilter<"Move"> | string;
+    after?: Prisma.StringWithAggregatesFilter<"Move"> | string;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Move"> | Date | string;
+    timeTaken?: Prisma.IntWithAggregatesFilter<"Move"> | number;
+    san?: Prisma.StringWithAggregatesFilter<"Move"> | string;
 };
 export type MoveCreateInput = {
+    moveNumber: number;
     from: string;
     to: string;
-    moveNumber: number;
+    before: string;
+    after: string;
     createdAt?: Date | string;
+    timeTaken: number;
+    san: string;
     game: Prisma.GameCreateNestedOneWithoutMovesInput;
-    player: Prisma.UserCreateNestedOneWithoutMovesInput;
 };
 export type MoveUncheckedCreateInput = {
     id?: number;
     gameId: number;
-    playerId: number;
+    moveNumber: number;
     from: string;
     to: string;
-    moveNumber: number;
+    before: string;
+    after: string;
     createdAt?: Date | string;
+    timeTaken: number;
+    san: string;
 };
 export type MoveUpdateInput = {
+    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
     from?: Prisma.StringFieldUpdateOperationsInput | string;
     to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
+    before?: Prisma.StringFieldUpdateOperationsInput | string;
+    after?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    timeTaken?: Prisma.IntFieldUpdateOperationsInput | number;
+    san?: Prisma.StringFieldUpdateOperationsInput | string;
     game?: Prisma.GameUpdateOneRequiredWithoutMovesNestedInput;
-    player?: Prisma.UserUpdateOneRequiredWithoutMovesNestedInput;
 };
 export type MoveUncheckedUpdateInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     gameId?: Prisma.IntFieldUpdateOperationsInput | number;
-    playerId?: Prisma.IntFieldUpdateOperationsInput | number;
+    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
     from?: Prisma.StringFieldUpdateOperationsInput | string;
     to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
+    before?: Prisma.StringFieldUpdateOperationsInput | string;
+    after?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    timeTaken?: Prisma.IntFieldUpdateOperationsInput | number;
+    san?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type MoveCreateManyInput = {
     id?: number;
     gameId: number;
-    playerId: number;
+    moveNumber: number;
     from: string;
     to: string;
-    moveNumber: number;
+    before: string;
+    after: string;
     createdAt?: Date | string;
+    timeTaken: number;
+    san: string;
 };
 export type MoveUpdateManyMutationInput = {
+    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
     from?: Prisma.StringFieldUpdateOperationsInput | string;
     to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
+    before?: Prisma.StringFieldUpdateOperationsInput | string;
+    after?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    timeTaken?: Prisma.IntFieldUpdateOperationsInput | number;
+    san?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type MoveUncheckedUpdateManyInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     gameId?: Prisma.IntFieldUpdateOperationsInput | number;
-    playerId?: Prisma.IntFieldUpdateOperationsInput | number;
+    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
     from?: Prisma.StringFieldUpdateOperationsInput | string;
     to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
+    before?: Prisma.StringFieldUpdateOperationsInput | string;
+    after?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    timeTaken?: Prisma.IntFieldUpdateOperationsInput | number;
+    san?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type MoveListRelationFilter = {
     every?: Prisma.MoveWhereInput;
@@ -316,82 +372,57 @@ export type MoveListRelationFilter = {
 export type MoveOrderByRelationAggregateInput = {
     _count?: Prisma.SortOrder;
 };
+export type MoveGameIdMoveNumberCompoundUniqueInput = {
+    gameId: number;
+    moveNumber: number;
+};
 export type MoveCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     gameId?: Prisma.SortOrder;
-    playerId?: Prisma.SortOrder;
+    moveNumber?: Prisma.SortOrder;
     from?: Prisma.SortOrder;
     to?: Prisma.SortOrder;
-    moveNumber?: Prisma.SortOrder;
+    before?: Prisma.SortOrder;
+    after?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    timeTaken?: Prisma.SortOrder;
+    san?: Prisma.SortOrder;
 };
 export type MoveAvgOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     gameId?: Prisma.SortOrder;
-    playerId?: Prisma.SortOrder;
     moveNumber?: Prisma.SortOrder;
+    timeTaken?: Prisma.SortOrder;
 };
 export type MoveMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     gameId?: Prisma.SortOrder;
-    playerId?: Prisma.SortOrder;
+    moveNumber?: Prisma.SortOrder;
     from?: Prisma.SortOrder;
     to?: Prisma.SortOrder;
-    moveNumber?: Prisma.SortOrder;
+    before?: Prisma.SortOrder;
+    after?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    timeTaken?: Prisma.SortOrder;
+    san?: Prisma.SortOrder;
 };
 export type MoveMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     gameId?: Prisma.SortOrder;
-    playerId?: Prisma.SortOrder;
+    moveNumber?: Prisma.SortOrder;
     from?: Prisma.SortOrder;
     to?: Prisma.SortOrder;
-    moveNumber?: Prisma.SortOrder;
+    before?: Prisma.SortOrder;
+    after?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    timeTaken?: Prisma.SortOrder;
+    san?: Prisma.SortOrder;
 };
 export type MoveSumOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     gameId?: Prisma.SortOrder;
-    playerId?: Prisma.SortOrder;
     moveNumber?: Prisma.SortOrder;
-};
-export type MoveCreateNestedManyWithoutPlayerInput = {
-    create?: Prisma.XOR<Prisma.MoveCreateWithoutPlayerInput, Prisma.MoveUncheckedCreateWithoutPlayerInput> | Prisma.MoveCreateWithoutPlayerInput[] | Prisma.MoveUncheckedCreateWithoutPlayerInput[];
-    connectOrCreate?: Prisma.MoveCreateOrConnectWithoutPlayerInput | Prisma.MoveCreateOrConnectWithoutPlayerInput[];
-    createMany?: Prisma.MoveCreateManyPlayerInputEnvelope;
-    connect?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-};
-export type MoveUncheckedCreateNestedManyWithoutPlayerInput = {
-    create?: Prisma.XOR<Prisma.MoveCreateWithoutPlayerInput, Prisma.MoveUncheckedCreateWithoutPlayerInput> | Prisma.MoveCreateWithoutPlayerInput[] | Prisma.MoveUncheckedCreateWithoutPlayerInput[];
-    connectOrCreate?: Prisma.MoveCreateOrConnectWithoutPlayerInput | Prisma.MoveCreateOrConnectWithoutPlayerInput[];
-    createMany?: Prisma.MoveCreateManyPlayerInputEnvelope;
-    connect?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-};
-export type MoveUpdateManyWithoutPlayerNestedInput = {
-    create?: Prisma.XOR<Prisma.MoveCreateWithoutPlayerInput, Prisma.MoveUncheckedCreateWithoutPlayerInput> | Prisma.MoveCreateWithoutPlayerInput[] | Prisma.MoveUncheckedCreateWithoutPlayerInput[];
-    connectOrCreate?: Prisma.MoveCreateOrConnectWithoutPlayerInput | Prisma.MoveCreateOrConnectWithoutPlayerInput[];
-    upsert?: Prisma.MoveUpsertWithWhereUniqueWithoutPlayerInput | Prisma.MoveUpsertWithWhereUniqueWithoutPlayerInput[];
-    createMany?: Prisma.MoveCreateManyPlayerInputEnvelope;
-    set?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-    disconnect?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-    delete?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-    connect?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-    update?: Prisma.MoveUpdateWithWhereUniqueWithoutPlayerInput | Prisma.MoveUpdateWithWhereUniqueWithoutPlayerInput[];
-    updateMany?: Prisma.MoveUpdateManyWithWhereWithoutPlayerInput | Prisma.MoveUpdateManyWithWhereWithoutPlayerInput[];
-    deleteMany?: Prisma.MoveScalarWhereInput | Prisma.MoveScalarWhereInput[];
-};
-export type MoveUncheckedUpdateManyWithoutPlayerNestedInput = {
-    create?: Prisma.XOR<Prisma.MoveCreateWithoutPlayerInput, Prisma.MoveUncheckedCreateWithoutPlayerInput> | Prisma.MoveCreateWithoutPlayerInput[] | Prisma.MoveUncheckedCreateWithoutPlayerInput[];
-    connectOrCreate?: Prisma.MoveCreateOrConnectWithoutPlayerInput | Prisma.MoveCreateOrConnectWithoutPlayerInput[];
-    upsert?: Prisma.MoveUpsertWithWhereUniqueWithoutPlayerInput | Prisma.MoveUpsertWithWhereUniqueWithoutPlayerInput[];
-    createMany?: Prisma.MoveCreateManyPlayerInputEnvelope;
-    set?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-    disconnect?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-    delete?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-    connect?: Prisma.MoveWhereUniqueInput | Prisma.MoveWhereUniqueInput[];
-    update?: Prisma.MoveUpdateWithWhereUniqueWithoutPlayerInput | Prisma.MoveUpdateWithWhereUniqueWithoutPlayerInput[];
-    updateMany?: Prisma.MoveUpdateManyWithWhereWithoutPlayerInput | Prisma.MoveUpdateManyWithWhereWithoutPlayerInput[];
-    deleteMany?: Prisma.MoveScalarWhereInput | Prisma.MoveScalarWhereInput[];
+    timeTaken?: Prisma.SortOrder;
 };
 export type MoveCreateNestedManyWithoutGameInput = {
     create?: Prisma.XOR<Prisma.MoveCreateWithoutGameInput, Prisma.MoveUncheckedCreateWithoutGameInput> | Prisma.MoveCreateWithoutGameInput[] | Prisma.MoveUncheckedCreateWithoutGameInput[];
@@ -431,68 +462,26 @@ export type MoveUncheckedUpdateManyWithoutGameNestedInput = {
     updateMany?: Prisma.MoveUpdateManyWithWhereWithoutGameInput | Prisma.MoveUpdateManyWithWhereWithoutGameInput[];
     deleteMany?: Prisma.MoveScalarWhereInput | Prisma.MoveScalarWhereInput[];
 };
-export type MoveCreateWithoutPlayerInput = {
-    from: string;
-    to: string;
-    moveNumber: number;
-    createdAt?: Date | string;
-    game: Prisma.GameCreateNestedOneWithoutMovesInput;
-};
-export type MoveUncheckedCreateWithoutPlayerInput = {
-    id?: number;
-    gameId: number;
-    from: string;
-    to: string;
-    moveNumber: number;
-    createdAt?: Date | string;
-};
-export type MoveCreateOrConnectWithoutPlayerInput = {
-    where: Prisma.MoveWhereUniqueInput;
-    create: Prisma.XOR<Prisma.MoveCreateWithoutPlayerInput, Prisma.MoveUncheckedCreateWithoutPlayerInput>;
-};
-export type MoveCreateManyPlayerInputEnvelope = {
-    data: Prisma.MoveCreateManyPlayerInput | Prisma.MoveCreateManyPlayerInput[];
-    skipDuplicates?: boolean;
-};
-export type MoveUpsertWithWhereUniqueWithoutPlayerInput = {
-    where: Prisma.MoveWhereUniqueInput;
-    update: Prisma.XOR<Prisma.MoveUpdateWithoutPlayerInput, Prisma.MoveUncheckedUpdateWithoutPlayerInput>;
-    create: Prisma.XOR<Prisma.MoveCreateWithoutPlayerInput, Prisma.MoveUncheckedCreateWithoutPlayerInput>;
-};
-export type MoveUpdateWithWhereUniqueWithoutPlayerInput = {
-    where: Prisma.MoveWhereUniqueInput;
-    data: Prisma.XOR<Prisma.MoveUpdateWithoutPlayerInput, Prisma.MoveUncheckedUpdateWithoutPlayerInput>;
-};
-export type MoveUpdateManyWithWhereWithoutPlayerInput = {
-    where: Prisma.MoveScalarWhereInput;
-    data: Prisma.XOR<Prisma.MoveUpdateManyMutationInput, Prisma.MoveUncheckedUpdateManyWithoutPlayerInput>;
-};
-export type MoveScalarWhereInput = {
-    AND?: Prisma.MoveScalarWhereInput | Prisma.MoveScalarWhereInput[];
-    OR?: Prisma.MoveScalarWhereInput[];
-    NOT?: Prisma.MoveScalarWhereInput | Prisma.MoveScalarWhereInput[];
-    id?: Prisma.IntFilter<"Move"> | number;
-    gameId?: Prisma.IntFilter<"Move"> | number;
-    playerId?: Prisma.IntFilter<"Move"> | number;
-    from?: Prisma.StringFilter<"Move"> | string;
-    to?: Prisma.StringFilter<"Move"> | string;
-    moveNumber?: Prisma.IntFilter<"Move"> | number;
-    createdAt?: Prisma.DateTimeFilter<"Move"> | Date | string;
-};
 export type MoveCreateWithoutGameInput = {
+    moveNumber: number;
     from: string;
     to: string;
-    moveNumber: number;
+    before: string;
+    after: string;
     createdAt?: Date | string;
-    player: Prisma.UserCreateNestedOneWithoutMovesInput;
+    timeTaken: number;
+    san: string;
 };
 export type MoveUncheckedCreateWithoutGameInput = {
     id?: number;
-    playerId: number;
+    moveNumber: number;
     from: string;
     to: string;
-    moveNumber: number;
+    before: string;
+    after: string;
     createdAt?: Date | string;
+    timeTaken: number;
+    san: string;
 };
 export type MoveCreateOrConnectWithoutGameInput = {
     where: Prisma.MoveWhereUniqueInput;
@@ -515,137 +504,141 @@ export type MoveUpdateManyWithWhereWithoutGameInput = {
     where: Prisma.MoveScalarWhereInput;
     data: Prisma.XOR<Prisma.MoveUpdateManyMutationInput, Prisma.MoveUncheckedUpdateManyWithoutGameInput>;
 };
-export type MoveCreateManyPlayerInput = {
-    id?: number;
-    gameId: number;
-    from: string;
-    to: string;
-    moveNumber: number;
-    createdAt?: Date | string;
-};
-export type MoveUpdateWithoutPlayerInput = {
-    from?: Prisma.StringFieldUpdateOperationsInput | string;
-    to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    game?: Prisma.GameUpdateOneRequiredWithoutMovesNestedInput;
-};
-export type MoveUncheckedUpdateWithoutPlayerInput = {
-    id?: Prisma.IntFieldUpdateOperationsInput | number;
-    gameId?: Prisma.IntFieldUpdateOperationsInput | number;
-    from?: Prisma.StringFieldUpdateOperationsInput | string;
-    to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-};
-export type MoveUncheckedUpdateManyWithoutPlayerInput = {
-    id?: Prisma.IntFieldUpdateOperationsInput | number;
-    gameId?: Prisma.IntFieldUpdateOperationsInput | number;
-    from?: Prisma.StringFieldUpdateOperationsInput | string;
-    to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+export type MoveScalarWhereInput = {
+    AND?: Prisma.MoveScalarWhereInput | Prisma.MoveScalarWhereInput[];
+    OR?: Prisma.MoveScalarWhereInput[];
+    NOT?: Prisma.MoveScalarWhereInput | Prisma.MoveScalarWhereInput[];
+    id?: Prisma.IntFilter<"Move"> | number;
+    gameId?: Prisma.IntFilter<"Move"> | number;
+    moveNumber?: Prisma.IntFilter<"Move"> | number;
+    from?: Prisma.StringFilter<"Move"> | string;
+    to?: Prisma.StringFilter<"Move"> | string;
+    before?: Prisma.StringFilter<"Move"> | string;
+    after?: Prisma.StringFilter<"Move"> | string;
+    createdAt?: Prisma.DateTimeFilter<"Move"> | Date | string;
+    timeTaken?: Prisma.IntFilter<"Move"> | number;
+    san?: Prisma.StringFilter<"Move"> | string;
 };
 export type MoveCreateManyGameInput = {
     id?: number;
-    playerId: number;
+    moveNumber: number;
     from: string;
     to: string;
-    moveNumber: number;
+    before: string;
+    after: string;
     createdAt?: Date | string;
+    timeTaken: number;
+    san: string;
 };
 export type MoveUpdateWithoutGameInput = {
+    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
     from?: Prisma.StringFieldUpdateOperationsInput | string;
     to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
+    before?: Prisma.StringFieldUpdateOperationsInput | string;
+    after?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    player?: Prisma.UserUpdateOneRequiredWithoutMovesNestedInput;
+    timeTaken?: Prisma.IntFieldUpdateOperationsInput | number;
+    san?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type MoveUncheckedUpdateWithoutGameInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
-    playerId?: Prisma.IntFieldUpdateOperationsInput | number;
+    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
     from?: Prisma.StringFieldUpdateOperationsInput | string;
     to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
+    before?: Prisma.StringFieldUpdateOperationsInput | string;
+    after?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    timeTaken?: Prisma.IntFieldUpdateOperationsInput | number;
+    san?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type MoveUncheckedUpdateManyWithoutGameInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
-    playerId?: Prisma.IntFieldUpdateOperationsInput | number;
+    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
     from?: Prisma.StringFieldUpdateOperationsInput | string;
     to?: Prisma.StringFieldUpdateOperationsInput | string;
-    moveNumber?: Prisma.IntFieldUpdateOperationsInput | number;
+    before?: Prisma.StringFieldUpdateOperationsInput | string;
+    after?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    timeTaken?: Prisma.IntFieldUpdateOperationsInput | number;
+    san?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 export type MoveSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     gameId?: boolean;
-    playerId?: boolean;
+    moveNumber?: boolean;
     from?: boolean;
     to?: boolean;
-    moveNumber?: boolean;
+    before?: boolean;
+    after?: boolean;
     createdAt?: boolean;
+    timeTaken?: boolean;
+    san?: boolean;
     game?: boolean | Prisma.GameDefaultArgs<ExtArgs>;
-    player?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["move"]>;
 export type MoveSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     gameId?: boolean;
-    playerId?: boolean;
+    moveNumber?: boolean;
     from?: boolean;
     to?: boolean;
-    moveNumber?: boolean;
+    before?: boolean;
+    after?: boolean;
     createdAt?: boolean;
+    timeTaken?: boolean;
+    san?: boolean;
     game?: boolean | Prisma.GameDefaultArgs<ExtArgs>;
-    player?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["move"]>;
 export type MoveSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     gameId?: boolean;
-    playerId?: boolean;
+    moveNumber?: boolean;
     from?: boolean;
     to?: boolean;
-    moveNumber?: boolean;
+    before?: boolean;
+    after?: boolean;
     createdAt?: boolean;
+    timeTaken?: boolean;
+    san?: boolean;
     game?: boolean | Prisma.GameDefaultArgs<ExtArgs>;
-    player?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["move"]>;
 export type MoveSelectScalar = {
     id?: boolean;
     gameId?: boolean;
-    playerId?: boolean;
+    moveNumber?: boolean;
     from?: boolean;
     to?: boolean;
-    moveNumber?: boolean;
+    before?: boolean;
+    after?: boolean;
     createdAt?: boolean;
+    timeTaken?: boolean;
+    san?: boolean;
 };
-export type MoveOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gameId" | "playerId" | "from" | "to" | "moveNumber" | "createdAt", ExtArgs["result"]["move"]>;
+export type MoveOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gameId" | "moveNumber" | "from" | "to" | "before" | "after" | "createdAt" | "timeTaken" | "san", ExtArgs["result"]["move"]>;
 export type MoveInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     game?: boolean | Prisma.GameDefaultArgs<ExtArgs>;
-    player?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type MoveIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     game?: boolean | Prisma.GameDefaultArgs<ExtArgs>;
-    player?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type MoveIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     game?: boolean | Prisma.GameDefaultArgs<ExtArgs>;
-    player?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type $MovePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Move";
     objects: {
         game: Prisma.$GamePayload<ExtArgs>;
-        player: Prisma.$UserPayload<ExtArgs>;
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: number;
         gameId: number;
-        playerId: number;
+        moveNumber: number;
         from: string;
         to: string;
-        moveNumber: number;
+        before: string;
+        after: string;
         createdAt: Date;
+        timeTaken: number;
+        san: string;
     }, ExtArgs["result"]["move"]>;
     composites: {};
 };
@@ -976,7 +969,6 @@ export interface MoveDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
 export interface Prisma__MoveClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
     game<T extends Prisma.GameDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameDefaultArgs<ExtArgs>>): Prisma.Prisma__GameClient<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
-    player<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1004,11 +996,14 @@ export interface Prisma__MoveClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface MoveFieldRefs {
     readonly id: Prisma.FieldRef<"Move", 'Int'>;
     readonly gameId: Prisma.FieldRef<"Move", 'Int'>;
-    readonly playerId: Prisma.FieldRef<"Move", 'Int'>;
+    readonly moveNumber: Prisma.FieldRef<"Move", 'Int'>;
     readonly from: Prisma.FieldRef<"Move", 'String'>;
     readonly to: Prisma.FieldRef<"Move", 'String'>;
-    readonly moveNumber: Prisma.FieldRef<"Move", 'Int'>;
+    readonly before: Prisma.FieldRef<"Move", 'String'>;
+    readonly after: Prisma.FieldRef<"Move", 'String'>;
     readonly createdAt: Prisma.FieldRef<"Move", 'DateTime'>;
+    readonly timeTaken: Prisma.FieldRef<"Move", 'Int'>;
+    readonly san: Prisma.FieldRef<"Move", 'String'>;
 }
 /**
  * Move findUnique

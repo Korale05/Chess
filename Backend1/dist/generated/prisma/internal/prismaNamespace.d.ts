@@ -534,6 +534,7 @@ export declare const GameScalarFieldEnum: {
     readonly blackPlayerId: 'blackPlayerId';
     readonly status: 'status';
     readonly winner: 'winner';
+    readonly currentFen: 'currentFen';
     readonly createdAt: 'createdAt';
     readonly endedAt: 'endedAt';
 };
@@ -541,11 +542,14 @@ export type GameScalarFieldEnum = (typeof GameScalarFieldEnum)[keyof typeof Game
 export declare const MoveScalarFieldEnum: {
     readonly id: 'id';
     readonly gameId: 'gameId';
-    readonly playerId: 'playerId';
+    readonly moveNumber: 'moveNumber';
     readonly from: 'from';
     readonly to: 'to';
-    readonly moveNumber: 'moveNumber';
+    readonly before: 'before';
+    readonly after: 'after';
     readonly createdAt: 'createdAt';
+    readonly timeTaken: 'timeTaken';
+    readonly san: 'san';
 };
 export type MoveScalarFieldEnum = (typeof MoveScalarFieldEnum)[keyof typeof MoveScalarFieldEnum];
 export declare const SortOrder: {

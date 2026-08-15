@@ -95,17 +95,21 @@ export const GameScalarFieldEnum = {
     blackPlayerId: 'blackPlayerId',
     status: 'status',
     winner: 'winner',
+    currentFen: 'currentFen',
     createdAt: 'createdAt',
     endedAt: 'endedAt'
 };
 export const MoveScalarFieldEnum = {
     id: 'id',
     gameId: 'gameId',
-    playerId: 'playerId',
+    moveNumber: 'moveNumber',
     from: 'from',
     to: 'to',
-    moveNumber: 'moveNumber',
-    createdAt: 'createdAt'
+    before: 'before',
+    after: 'after',
+    createdAt: 'createdAt',
+    timeTaken: 'timeTaken',
+    san: 'san'
 };
 export const SortOrder = {
     asc: 'asc',

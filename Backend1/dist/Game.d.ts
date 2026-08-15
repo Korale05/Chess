@@ -1,12 +1,19 @@
 import WebSocket from "ws";
+export interface player {
+    id: number;
+    socket: WebSocket;
+}
 export declare class Game {
-    player1: WebSocket;
-    player2: WebSocket;
+    player1: player;
+    player2: player;
     private board;
     private moves;
     private startTime;
     private moveCount;
-    constructor(player1: WebSocket, player2: WebSocket);
+    private gameId;
+    constructor(player1: player, player2: player, gameId?: string);
+    createGameHandler(): Promise<void>;
+    createGameInDb(): Promise<void>;
     makeMove(socket: WebSocket, move: {
         to: string;
         from: string;
