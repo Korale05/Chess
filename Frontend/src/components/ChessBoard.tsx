@@ -48,6 +48,8 @@ export const ChessBoard = ({
                         // Is this square a legal destination?
                         const isValidMove : boolean = validMoves.includes(clickedSquare);
 
+                        const piece = chess.get(clickedSquare);
+
                         console.log("checking valid move....");
                         console.log(isValidMove);
                         console.log("checked  valid move!");
@@ -64,11 +66,10 @@ export const ChessBoard = ({
                                         
                                         //if from already selected means you selected the to move
                                         const newTo = clickedSquare;
-
+                                        
                                         //second click must be valid 
                                         if(!validMoves.includes(newTo)){
                                             //if second click is not valid
-                                            const piece = chess.get(newTo);
                                             if(!(piece && piece.color == chess.turn()))return;
                                             setFrom(newTo);
                                             return;
@@ -93,10 +94,14 @@ export const ChessBoard = ({
                                                 flex
                                                 items-center
                                                 justify-center
-                                                ${ from == clickedSquare ? "bg-yellow-400" : 
-                                                    (i + j) % 2 === 0
-                                                        ? "bg-green-300"
-                                                        : "bg-white"
+                                                ${ chess.isCheck() && 
+                                                    piece?.type=="k" && 
+                                                        piece.color == chess.turn() 
+                                                            ? "bg-red-500" : from == clickedSquare 
+                                                                ? "bg-yellow-400" : 
+                                                                    (i + j) % 2 === 0
+                                                                        ? "bg-green-300"
+                                                                        : "bg-white"
                                                 }
                                             `}
                                 >

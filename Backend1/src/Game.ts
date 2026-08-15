@@ -89,20 +89,10 @@ export class Game {
         });
         this.gameId = game.id;
     }
-    getPlayerBySocket(socket : WebSocket){
-
-        if(this.player1.socket == socket)return this.player1;
-        else if(this.player2.socket == socket)return this.player2;
-        else return null;
-    }
     makeMove(socket : WebSocket,move : {
         to : string,
         from : string
     }){
-
-        const playerCurrent = this.getPlayerBySocket(socket);
-
-        
 
         try{
             //make move
@@ -114,28 +104,10 @@ export class Game {
             console.log(error);
             return;
         }
-        //check if game over or not
-        if(this.board.isGameOver()){
-            //Send Game Over Message to Both Player
-            this.player1.socket.send(JSON.stringify({
-                type : GAME_OVER,
-                payload : {
-                    winner : this.board.turn() == 'w' ? "black" : "white"
-                }
-            }));
-
-            
-            this.player2.socket.send(JSON.stringify({
-                type : GAME_OVER,
-                payload : {
-                    winner : this.board.turn() == 'w' ? "black" : "white"
-                }
-            }))
-            
-        }
-
+        console.log("HELLO after the mvoe!");
         //if Game is not Over
         // if even turn measn playr 1 is moved now your turn 
+        
         
         
         this.player2.socket.send(JSON.stringify({

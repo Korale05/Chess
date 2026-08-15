@@ -1,9 +1,10 @@
 import { Chess } from "chess.js";
 import { ChessBoard } from "../components/ChessBoard.tsx";
 import { useSocket } from "../hooks/useSocket.tsx";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { PlayStartEndSound } from "../utils/startSound.ts";
 import { playMoveSound } from "../utils/sound.ts";
+import confetti from "canvas-confetti";
 
 
 // Message 
@@ -19,6 +20,7 @@ export function Game() {
     const [started, setStarted] = useState(false);
     const [user ,setUser] = useState<string | null>(null);
     const [opponent ,setOpponent] = useState<string | null>(null);
+    const [ischeck , setCheck] = useState(false);
 
     useEffect(() => {
         if (!socket) return;
@@ -48,11 +50,36 @@ export function Game() {
         };
     }, [socket]);
 
+    useEffect(()=>{
+        //check if game over or not
+        if(chessRef?.current.isCheckmate()){
+            setCheck(true);
+            confetti({
+                particleCount: 150,
+                spread: 90,
+                origin: { y: 0.6 },
+            });
+            setTimeout(() => {
+                confetti({ particleCount: 80, angle: 60, spread: 60, origin: { x: 0 } });
+                confetti({ particleCount: 80, angle: 120, spread: 60, origin: { x: 1 } });
+            }, 300);
+        }
+    },[board,Chess])
+    const winner = chessRef.current.turn() == "w" ? opponent : user;
     if (!socket) return <div>Connecting....</div>;
     return (
-        <div className="flex justify-center items-center min-h-screen bg-slate-900">
+        <div className="flex justify-center items-center min-h-screen bg-slate-900 relative">
+            
             <div className="flex gap-8">
-                {/* Board + player names, grouped as one unit */}
+                {ischeck && (
+                        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                            <div className="bg-slate-800 border border-slate-600 rounded-2xl px-10 py-8 text-center shadow-2xl">
+                                <div className="text-5xl mb-3">👑</div>
+                                <h2 className="text-2xl font-bold text-white mb-1">{winner} Wins!</h2>
+                                <p className="text-slate-400 text-sm">by Checkmate</p>
+                            </div>
+                        </div>
+                    )}
                 <div className="flex flex-col gap-3">
                     {/* Top player (opponent) */}
                     {
