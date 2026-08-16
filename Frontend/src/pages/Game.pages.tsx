@@ -1,7 +1,7 @@
 import { Chess } from "chess.js";
 import { ChessBoard } from "../components/ChessBoard.tsx";
 import { useSocket } from "../hooks/useSocket.tsx";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PlayStartEndSound } from "../utils/startSound.ts";
 import { playMoveSound } from "../utils/sound.ts";
 import confetti from "canvas-confetti";
@@ -20,7 +20,8 @@ export function Game() {
     const [started, setStarted] = useState(false);
     const [user ,setUser] = useState<string | null>(null);
     const [opponent ,setOpponent] = useState<string | null>(null);
-    const [ischeck , setCheck] = useState(false);
+    const [ischeck , setCheck] = useState<Boolean>(false);
+    const [moves , setMove] = useState<String[]>([]);
 
     useEffect(() => {
         if (!socket) return;
@@ -42,7 +43,8 @@ export function Game() {
                     const moveResult = chessRef.current.move(message.payload);
                     setBoard(chessRef.current.board());
                     playMoveSound(moveResult,chessRef.current?.isCheck());
-                    
+                    setMove(prev=> [... prev,moveResult.san]);
+                    console.log(moves);
                     break;
                 case GAME_OVER:
                     break;
@@ -130,6 +132,40 @@ export function Game() {
                             Play
                         </button>
                     )}
+                    {/* Show Moves to Player */}
+                    {
+                        <div className="mt-4 text-white">
+                            {Array.from(
+                                { length: Math.ceil(moves.length / 2) },
+                                (_, index) => {
+                                    const whiteMove = moves[index * 2];
+                                    const blackMove = moves[index * 2 + 1];
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="flex items-center py-2 border-b border-slate-600"
+                                        >
+                                            {/* Move number */}
+                                            <span className="w-8 text-slate-400">
+                                                {index + 1}.
+                                            </span>
+
+                                            {/* White move */}
+                                            <span className="w-20 font-semibold">
+                                                {whiteMove}
+                                            </span>
+
+                                            {/* Black move */}
+                                            <span className="w-20 font-semibold">
+                                                {blackMove || ""}
+                                            </span>
+                                        </div>
+                                    );
+                                }
+                            )}
+                        </div>
+                    }
                 </div>
             </div>
         </div>

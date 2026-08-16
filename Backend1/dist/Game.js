@@ -18,7 +18,7 @@ export class Game {
         this.board = new Chess();
         this.moves = [];
         this.startTime = new Date;
-        this.moveCount = 1;
+        this.moveCount = 0;
         this.gameId = null;
     }
     async createGameHandler() {
@@ -74,27 +74,57 @@ export class Game {
         });
         this.gameId = game.id;
     }
-    makeMove(socket, move) {
+    async makeMove(socket, move) {
         try {
             //make move
-            console.log(move);
-            this.board.move(move);
+            // Position before the move
+            const before = this.board.fen();
+            // Make The Move
+            const result = this.board.move(move);
             this.moveCount++;
+            // Position after the move 
+            const after = this.board.fen();
+            // Save Move in DB
+            await prisma.move.create({
+                data: {
+                    gameId: this.gameId,
+                    moveNumber: this.moveCount,
+                    from: move.from,
+                    to: move.to,
+                    before: before,
+                    after: after,
+                    timeTaken: 0,
+                    san: result.san
+                }
+            });
         }
         catch (error) {
             console.log(error);
             return;
         }
-        console.log("HELLO after the mvoe!");
-        //if Game is not Over
-        // if even turn measn playr 1 is moved now your turn 
+        // Check mate after the move 
+        if (this.board.isCheckmate()) {
+            const winner = this.board.turn() == "w" ? "BLACK" : "WHITE";
+            console.log(this.gameId);
+            const responce = await prisma.game.update({
+                where: {
+                    id: this.gameId
+                },
+                data: {
+                    status: "FINISHED",
+                    winner: winner
+                }
+            });
+            console.log("Update the game Status !");
+        }
+        // Sending both move to the both Player 
         this.player2.socket.send(JSON.stringify({
             type: MOVE,
-            payload: move
+            payload: move,
         }));
         this.player1.socket.send(JSON.stringify({
             type: MOVE,
-            payload: move
+            payload: move,
         }));
     }
 }

@@ -18,6 +18,6 @@ export declare class Game {
     makeMove(socket: WebSocket, move: {
         to: string;
         from: string;
-    }): void;
+    }): Promise<void>;
 }
 //# sourceMappingURL=Game.d.ts.map
