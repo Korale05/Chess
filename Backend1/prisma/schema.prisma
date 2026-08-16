@@ -68,6 +68,7 @@ enum GameStatus {
   WAITING
   PLAYING
   FINISHED
+  ABANDONED
 }
 
 enum GameWinner {

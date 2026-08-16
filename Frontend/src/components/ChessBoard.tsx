@@ -9,7 +9,7 @@ import { Chess } from "chess.js";
 const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 export const ChessBoard = ({
-  board,socket , chess
+  board,socket , chess , playerColor
 }: {
   board: ({
     square: Square;
@@ -18,6 +18,7 @@ export const ChessBoard = ({
   } | null)[][];
   socket : WebSocket
   chess :  Chess
+  playerColor : "w" | "b" | null
 }) => {
     const [from ,setFrom] = useState<Square | null>(null);
     const [validMoves, setValidMoves] = useState<string[]>([]);
@@ -58,8 +59,11 @@ export const ChessBoard = ({
                                     onClick = {()=>{
                                         // First Click the selected piece  
                                         if(!from){
+
                                             const piece = chess.get(clickedSquare);
-                                            if(!(piece && piece.color == chess.turn()))return;
+                                            if(!piece)return;
+                                            if(piece.color !== playerColor)return;
+                                            if(chess.turn() != playerColor)return;
                                             setFrom(clickedSquare);
                                             return;
                                         }

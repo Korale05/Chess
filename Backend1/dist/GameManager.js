@@ -11,19 +11,27 @@ export class GameManager {
         this.pendingUser = null;
     }
     addUser({ id, socket }) {
-        this.users.push(socket);
+        this.users.push({ id, socket });
         this.addHandler({ id, socket });
         console.log("User is Added !");
     }
-    removeUser(socket) {
-        this.users = this.users.filter(userSocket => userSocket != socket);
-        //It remove the users from the list
+    removeUser(ws) {
+        const entry = this.users.find(u => u.socket === ws);
+        if (!entry)
+            return;
+        const game = this.games.find(g => g.player1.id === entry.id || g.player2?.id === entry.id);
+        if (game) {
+            game.handleDisconnect(entry.id); // this ends the game, no timer
+        }
+        this.users = this.users.filter(u => u.socket !== ws);
     }
     addHandler({ id, socket }) {
         socket.on("message", async (data) => {
             const messageParsed = JSON.parse(data.toString());
             if (messageParsed.type == INIT_GAME) {
                 if (this.pendingUser) {
+                    if (this.pendingUser.socket == socket)
+                        return;
                     //Start the game
                     const game = new Game(this.pendingUser, { socket, id, color: "b" });
                     await game.createGameHandler();

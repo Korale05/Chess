@@ -56,7 +56,7 @@ export class Game {
                 payload : {
                     color : "white",
                     whiltePlayer : users.find(user => user.id == this.player1.id)?.username,
-                    BlackPlayer : users.find(user=>user.id == this.player2.id)?.username
+                    BlackPlayer : users.find(user=>user.id == this.player2.id)?.username,
                 }
             }));
         if(this.player2)
@@ -65,7 +65,7 @@ export class Game {
                 payload : {
                     color : "Black",
                     whiltePlayer : users.find(user => user.id == this.player1.id)?.username,
-                    BlackPlayer : users.find(user=>user.id == this.player2.id)?.username
+                    BlackPlayer : users.find(user=>user.id == this.player2.id)?.username,
                 }
             }));
     }
@@ -89,6 +89,33 @@ export class Game {
         });
         this.gameId = game.id;
     }
+    async handleDisconnect(id : number){
+        const winner = this.player1.id == id ? "BLACK" : "WHITE";
+
+        try{
+            await prisma.game.update({
+                where : { id : this.gameId!},
+                data : {
+                    status : "FINISHED",
+                    winner : winner,
+                    endedAt : new Date()
+                }
+            })
+        }catch(error){
+            console.log(error);
+            return;
+        }
+
+        const opponent  = this.player1.id == id ? this.player2 : this.player1;
+
+        opponent?.socket?.send(JSON.stringify({
+            tyep : GAME_OVER,
+            payload : {
+                reason: "OPPONENT_DISCONNECTED",
+                winner: winner
+            }
+        }));
+    }
     async makeMove(socket : WebSocket,move : {
         to : string,
         from : string
@@ -96,6 +123,11 @@ export class Game {
 
         try{
             //make move
+            if(this.board.turn() == "w"){
+                if(socket != this.player1.socket)return;
+            }else{
+                if(socket != this.player2.socket)return;
+            }
 
             // Position before the move
             const before = this.board.fen();

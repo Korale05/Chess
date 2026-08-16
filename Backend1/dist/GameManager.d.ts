@@ -6,7 +6,7 @@ export declare class GameManager {
     private users;
     constructor();
     addUser({ id, socket }: player): void;
-    removeUser(socket: WebSocket): void;
+    removeUser(ws: WebSocket): void;
     private addHandler;
 }
 //# sourceMappingURL=GameManager.d.ts.map

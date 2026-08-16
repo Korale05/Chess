@@ -22,6 +22,7 @@ export function Game() {
     const [opponent ,setOpponent] = useState<string | null>(null);
     const [ischeck , setCheck] = useState<Boolean>(false);
     const [moves , setMove] = useState<String[]>([]);
+    const [playerColor, setPlayerColor] = useState<"w" | "b" | null>(null);
 
     useEffect(() => {
         if (!socket) return;
@@ -38,6 +39,7 @@ export function Game() {
                     setUser(message.payload.whiltePlayer);
                     console.log(message.type.BlackPlayer);
                     setOpponent(message.payload.BlackPlayer)
+                    setPlayerColor(message.payload.color === "white" ? "w" : "b");
                     break;
                 case MOVE:
                     const moveResult = chessRef.current.move(message.payload);
@@ -47,6 +49,8 @@ export function Game() {
                     console.log(moves);
                     break;
                 case GAME_OVER:
+                    setCheck(true); // reuse your existing checkmate-modal state, or make a new one
+                    console.log(message.payload.reason, message.payload.winner);
                     break;
             }
         };
@@ -101,7 +105,7 @@ export function Game() {
                     }
 
                     <div className="w-fit">
-                        <ChessBoard socket={socket} board={board} chess={chessRef.current} />
+                        <ChessBoard socket={socket} board={board} chess={chessRef.current}  playerColor={playerColor}/>
                     </div>
 
                     {/* Bottom player (you) */}
@@ -134,7 +138,7 @@ export function Game() {
                     )}
                     {/* Show Moves to Player */}
                     {
-                        <div className="mt-4 text-white">
+                        <div className="mt-1 text-white">
                             {Array.from(
                                 { length: Math.ceil(moves.length / 2) },
                                 (_, index) => {
@@ -157,7 +161,7 @@ export function Game() {
                                             </span>
 
                                             {/* Black move */}
-                                            <span className="w-20 font-semibold">
+                                            <span className="w-1 font-semibold">
                                                 {blackMove || ""}
                                             </span>
                                         </div>
