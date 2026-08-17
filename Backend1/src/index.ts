@@ -8,12 +8,11 @@ import app from "./app.js";
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_ACCESS_SECRET!;
 
-// Keep a reference to the underlying http.Server instance
+
 const server = app.listen(PORT, () => {
     console.log(`HTTP server running on port ${PORT}`);
 });
 
-// Attach the WS server to the SAME server instead of a separate port
 const wss = new WebSocketServer({ server });
 const gamemanager = new GameManager();
 
