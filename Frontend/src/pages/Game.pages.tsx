@@ -127,7 +127,7 @@ export function Game() {
                 </div>
 
                 {/* Game Controls */}
-                <div className="w-64 bg-slate-700 p-4 rounded">
+                <div className="w-64 bg-slate-700 p-4 rounded flex flex-col" style={{ maxHeight: "600px" }}>
                     {!started && (
                         <button
                             onClick={() => socket.send(JSON.stringify({ type: INIT_GAME }))}
@@ -136,40 +136,24 @@ export function Game() {
                             Play
                         </button>
                     )}
-                    {/* Show Moves to Player */}
-                    {
-                        <div className="mt-1 text-white">
-                            {Array.from(
-                                { length: Math.ceil(moves.length / 2) },
-                                (_, index) => {
-                                    const whiteMove = moves[index * 2];
-                                    const blackMove = moves[index * 2 + 1];
 
-                                    return (
-                                        <div
-                                            key={index}
-                                            className="flex items-center py-2 border-b border-slate-600"
-                                        >
-                                            {/* Move number */}
-                                            <span className="w-8 text-slate-400">
-                                                {index + 1}.
-                                            </span>
-
-                                            {/* White move */}
-                                            <span className="w-20 font-semibold">
-                                                {whiteMove}
-                                            </span>
-
-                                            {/* Black move */}
-                                            <span className="w-1 font-semibold">
-                                                {blackMove || ""}
-                                            </span>
-                                        </div>
-                                    );
-                                }
-                            )}
-                        </div>
-                    }
+                    {/* Move list - own scrollable section, capped height */}
+                    <div className="mt-1 text-white overflow-y-auto flex-1">
+                        {Array.from(
+                            { length: Math.ceil(moves.length / 2) },
+                            (_, index) => {
+                                const whiteMove = moves[index * 2];
+                                const blackMove = moves[index * 2 + 1];
+                                return (
+                                    <div key={index} className="flex items-center py-2 border-b border-slate-600">
+                                        <span className="w-8 text-slate-400">{index + 1}.</span>
+                                        <span className="w-20 font-semibold">{whiteMove}</span>
+                                        <span className="w-20 font-semibold">{blackMove || ""}</span>
+                                    </div>
+                                );
+                            }
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
