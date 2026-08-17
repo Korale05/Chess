@@ -19,9 +19,11 @@ export class GameManager {
         const entry = this.users.find(u => u.socket === ws);
         if (!entry)
             return;
-        const game = this.games.find(g => g.player1.id === entry.id || g.player2?.id === entry.id);
+        const game = this.games.find(g => g.player1.socket === ws || g.player2?.socket === ws // match the actual connection
+        );
         if (game) {
-            game.handleDisconnect(entry.id); // this ends the game, no timer
+            game.handleDisconnect(entry.id);
+            this.games = this.games.filter(g => g !== game);
         }
         this.users = this.users.filter(u => u.socket !== ws);
     }

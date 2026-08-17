@@ -51,9 +51,7 @@ export const ChessBoard = ({
 
                         const piece = chess.get(clickedSquare);
 
-                        console.log("checking valid move....");
-                        console.log(isValidMove);
-                        console.log("checked  valid move!");
+                        
 
                         return <div key={j}
                                     onClick = {()=>{

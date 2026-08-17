@@ -2,12 +2,13 @@ import axios from "axios";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 export const Signin = () => {
     const navigate = useNavigate();
 
     const email = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
-
     async function Login(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
@@ -21,14 +22,9 @@ export const Signin = () => {
 
         try {
             const response: any = await axios.post(
-                "http://localhost:3000/api/auth/signin",
-                {
-                    email: emailValue,
-                    password: passwordValue,
-                },
-                {
-                    withCredentials: true,
-                }
+                `${API_URL}/api/auth/signin`,
+                { email: emailValue, password: passwordValue },
+                { withCredentials: true }
             );
 
             console.log(response.data);

@@ -2,6 +2,7 @@ export declare const GameStatus: {
     readonly WAITING: 'WAITING';
     readonly PLAYING: 'PLAYING';
     readonly FINISHED: 'FINISHED';
+    readonly ABANDONED: 'ABANDONED';
 };
 export type GameStatus = (typeof GameStatus)[keyof typeof GameStatus];
 export declare const GameWinner: {

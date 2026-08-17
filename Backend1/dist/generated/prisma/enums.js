@@ -10,7 +10,8 @@
 export const GameStatus = {
     WAITING: 'WAITING',
     PLAYING: 'PLAYING',
-    FINISHED: 'FINISHED'
+    FINISHED: 'FINISHED',
+    ABANDONED: 'ABANDONED'
 };
 export const GameWinner = {
     WHITE: 'WHITE',

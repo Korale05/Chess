@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/apiResponce.js";
 import { comparePassword, hashPassword } from "../utils/hashPassword.js";
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
 import { use } from "react";
+const isProd = process.env.NODE_ENV === "production";
 export async function singup(req, res) {
     try {
         const { username, email, password } = req.body;
@@ -72,16 +73,16 @@ export async function singin(req, res) {
         const refreshToken = generateRefreshToken(user.id);
         res.cookie("accessToken", accessToekn, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            path: "/", // <-- add this
-            maxAge: 15 * 60 * 1000,
+            secure: isProd, // true only in production (HTTPS)
+            sameSite: isProd ? "none" : "lax", // "none" only works with secure:true
+            path: "/",
+            maxAge: 30 * 60 * 1000,
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            path: "/", // <-- add this
+            secure: isProd,
+            sameSite: isProd ? "none" : "lax",
+            path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         const reqUserInfo = {
@@ -106,14 +107,14 @@ export async function refreshAccessToken(req, res) {
         const NewrefreshToken = generateRefreshToken(decoded.userId);
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: isProd,
+            sameSite: isProd ? "none" : "lax",
             maxAge: 15 * 60 * 1000,
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: isProd,
+            sameSite: isProd ? "none" : "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         return res.status(200).json({

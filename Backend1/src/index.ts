@@ -18,17 +18,21 @@ const gamemanager = new GameManager();
 
 function getUserId(request: IncomingMessage): number | null {
     const rawCookies = request.headers.cookie;
+    console.log("WS handshake cookies present?:", !!rawCookies); // temp debug
+
     if (!rawCookies) return null;
 
     const parsed = cookie.parseCookie(rawCookies);
     const token = parsed.accessToken;
+    console.log("accessToken cookie found?:", !!token); // temp debug
     if (!token) return null;
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
         return decoded.userId;
     } catch (err) {
-        return null; // invalid/expired token
+        console.log("JWT verify failed:", (err as Error).message); // temp debug
+        return null;
     }
 }
 

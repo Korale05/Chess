@@ -2,6 +2,9 @@ import axios from "axios";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 export const Signup = () => {
     const navigate = useNavigate();
 
@@ -41,15 +44,9 @@ export const Signup = () => {
 
         try {
             const responce = await axios.post(
-                "http://localhost:3000/api/auth/signup",
-                {
-                    username : usernameValue,
-                    email : emailValue,
-                    password : passwordValue
-                },
-                {
-                    withCredentials: true
-                }
+                `${API_URL}/api/auth/signup`,
+                { username: usernameValue, email: emailValue, password: passwordValue },
+                { withCredentials: true }
             );
 
             console.log(responce.data);

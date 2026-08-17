@@ -23,7 +23,8 @@ export function Game() {
     const [ischeck , setCheck] = useState<Boolean>(false);
     const [moves , setMove] = useState<String[]>([]);
     const [playerColor, setPlayerColor] = useState<"w" | "b" | null>(null);
-
+    const [winning_Reason , setWinningReason] = useState<String | null>(null);
+    const [winner , setWinner] = useState<string | null>(null);
     useEffect(() => {
         if (!socket) return;
         socket.onmessage = (event) => {
@@ -35,9 +36,8 @@ export function Game() {
                     setBoard(chessRef.current.board());
                     setStarted(true);
                     PlayStartEndSound(true);
-                    console.log(message.payload.whiltePlayer);
+                    
                     setUser(message.payload.whiltePlayer);
-                    console.log(message.type.BlackPlayer);
                     setOpponent(message.payload.BlackPlayer)
                     setPlayerColor(message.payload.color === "white" ? "w" : "b");
                     break;
@@ -46,10 +46,12 @@ export function Game() {
                     setBoard(chessRef.current.board());
                     playMoveSound(moveResult,chessRef.current?.isCheck());
                     setMove(prev=> [... prev,moveResult.san]);
-                    console.log(moves);
                     break;
                 case GAME_OVER:
                     setCheck(true); // reuse your existing checkmate-modal state, or make a new one
+                    console.log(message.payload.reason);
+                    setWinningReason(message.payload.reason);
+                    setWinner(message.payload.winner)
                     console.log(message.payload.reason, message.payload.winner);
                     break;
             }
@@ -60,6 +62,8 @@ export function Game() {
         //check if game over or not
         if(chessRef?.current.isCheckmate()){
             setCheck(true);
+            setWinner(chessRef.current.turn() == "w" ? opponent : user);
+            setWinningReason("by Checkmate");
             confetti({
                 particleCount: 150,
                 spread: 90,
@@ -71,7 +75,7 @@ export function Game() {
             }, 300);
         }
     },[board,Chess])
-    const winner = chessRef.current.turn() == "w" ? opponent : user;
+    
     if (!socket) return <div>Connecting....</div>;
     return (
         <div className="flex justify-center items-center min-h-screen bg-slate-900 relative">
@@ -82,7 +86,7 @@ export function Game() {
                             <div className="bg-slate-800 border border-slate-600 rounded-2xl px-10 py-8 text-center shadow-2xl">
                                 <div className="text-5xl mb-3">👑</div>
                                 <h2 className="text-2xl font-bold text-white mb-1">{winner} Wins!</h2>
-                                <p className="text-slate-400 text-sm">by Checkmate</p>
+                                <p className="text-slate-400 text-sm">{winning_Reason}</p>
                             </div>
                         </div>
                     )}

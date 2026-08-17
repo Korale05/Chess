@@ -11,7 +11,7 @@ import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from ".
 import { use } from "react";
 
 
-
+const isProd = process.env.NODE_ENV === "production";
 export async function singup(
     req : AuthRequest,
     res : Response
@@ -116,18 +116,19 @@ export async function singin(
         const accessToekn = generateAccessToken(user.id);
         const refreshToken = generateRefreshToken(user.id);
 
+
         res.cookie("accessToken", accessToekn, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            path: "/",              // <-- add this
-            maxAge: 15 * 60 * 1000,
+            secure: isProd,                        // true only in production (HTTPS)
+            sameSite: isProd ? "none" : "lax",     // "none" only works with secure:true
+            path: "/",
+            maxAge: 30 * 60 * 1000,
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            path: "/",               // <-- add this
+            secure: isProd,
+            sameSite: isProd ? "none" : "lax",
+            path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
@@ -171,17 +172,17 @@ export async function refreshAccessToken(
         );
 
         res.cookie("accessToken", accessToken, {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            maxAge: 15 * 60 * 1000,
-        });
-        res.cookie("refreshToken",refreshToken,{
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
+        maxAge: 15 * 60 * 1000,
+    });
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
         return res.status(200).json({
             message: "Access token refreshed",

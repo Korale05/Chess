@@ -6,7 +6,7 @@ import { randomUUID } from 'crypto';
 import { throws } from "assert";
 
 
-type GAME_STATUS = 'IN_PROGRESS' | 'COMPLETED' | 'ABANDONED' | 'TIME_UP' | 'PLAYER_EXIT';
+export type GAME_STATUS = 'IN_PROGRESS' | 'COMPLETED' | 'ABANDONED' | 'TIME_UP' | 'PLAYER_EXIT';
 type GAME_RESULT = "WHITE_WINS" | "BLACK_WINS" | "DRAW";
 
 export interface player {
@@ -24,6 +24,7 @@ export class Game {
     private startTime : Date;
     private moveCount : number;
     private gameId : number | null;
+    public status : 'IN_PROGRESS' | 'COMPLETED' | 'ABANDONED' | 'TIME_UP' | 'PLAYER_EXIT';
 
     constructor(player1 : player ,player2 : player,gameId? : string){
         this.player1 = player1;
@@ -33,6 +34,7 @@ export class Game {
         this.startTime = new Date;
         this.moveCount = 0; 
         this.gameId = null;
+        this.status = 'IN_PROGRESS';
     }
     async createGameHandler(){
 
@@ -95,27 +97,23 @@ export class Game {
         try{
             await prisma.game.update({
                 where : { id : this.gameId!},
-                data : {
-                    status : "FINISHED",
-                    winner : winner,
-                    endedAt : new Date()
-                }
-            })
+                data : { status : "FINISHED", winner : winner, endedAt : new Date() }
+            });
+            this.status = 'ABANDONED';
         }catch(error){
-            console.log(error);
+            console.log("handleDisconnect DB update FAILED:", error); // temp debug — this is the one to watch for
             return;
         }
 
         const opponent  = this.player1.id == id ? this.player2 : this.player1;
-
+        console.log(opponent);
         opponent?.socket?.send(JSON.stringify({
-            tyep : GAME_OVER,
-            payload : {
-                reason: "OPPONENT_DISCONNECTED",
-                winner: winner
-            }
+            type: GAME_OVER,
+            payload: { reason: "OPPONENT_DISCONNECTED", winner: winner }
         }));
-    }
+
+        console.log("GAME_OVER message sent to opponent");
+}
     async makeMove(socket : WebSocket,move : {
         to : string,
         from : string
@@ -163,7 +161,7 @@ export class Game {
         // Check mate after the move 
         if(this.board.isCheckmate()){
             const winner = this.board.turn() == "w" ? "BLACK" : "WHITE";
-            console.log(this.gameId);
+            
             const responce = await prisma.game.update({
                 where : {
                     id : this.gameId!
@@ -173,9 +171,9 @@ export class Game {
                     winner : winner
                 }
             });
-            console.log("Update the game Status !");
+            this.status = 'COMPLETED';
+            
         }
-        
         
         // Sending both move to the both Player 
         this.player2.socket.send(JSON.stringify({
