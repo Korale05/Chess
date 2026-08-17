@@ -4,7 +4,6 @@ import { prisma } from "../db.js";
 import { ApiResponse } from "../utils/apiResponce.js";
 import { comparePassword, hashPassword } from "../utils/hashPassword.js";
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
-import { use } from "react";
 const isProd = process.env.NODE_ENV === "production";
 export async function singup(req, res) {
     try {
