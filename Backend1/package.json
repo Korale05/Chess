@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc -b && node dist/index.js",
-    "build": "npm install && tsc -b && npx prisma generate && npx prisma migrate deploy",
+    "build": "tsc -b && npx prisma generate && npx prisma migrate deploy",
     "start": "node dist/index.js"
   },
   "keywords": [],
