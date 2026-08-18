@@ -44,7 +44,7 @@ export class GameManager{
     
 
     private addHandler({ id , socket } : player ){
-        socket.on("message",async (data)=>{
+        socket.on("message",async (data : WebSocket.RawData)=>{
             const messageParsed = JSON.parse(data.toString());
             if(messageParsed.type == INIT_GAME){
                 if(this.pendingUser){
