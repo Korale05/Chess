@@ -9,16 +9,17 @@ import { Chess } from "chess.js";
 const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 export const ChessBoard = ({
-  board,socket , chess , playerColor
+  board,socket , chess , playerColor,onMove
 }: {
   board: ({
     square: Square;
     type: PieceSymbol;
     color: Color;
   } | null)[][];
-  socket : WebSocket
-  chess :  Chess
-  playerColor : "w" | "b" | null
+  socket : WebSocket;
+  chess :  Chess;
+  playerColor : "w" | "b" | null;
+  onMove: (move: { from: string, to: string }) => void;
 }) => {
     const [from ,setFrom] = useState<Square | null>(null);
     const [validMoves, setValidMoves] = useState<string[]>([]);
@@ -87,7 +88,7 @@ export const ChessBoard = ({
                                                 to : newTo
                                             }
                                         }));
-                                        
+                                        onMove({ from, to: newTo });
                                         setFrom(null);
                                         setValidMoves([]);
                                     }}

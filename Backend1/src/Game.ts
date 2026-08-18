@@ -175,16 +175,12 @@ export class Game {
             
         }
         
-        // Sending both move to the both Player 
-        this.player2.socket.send(JSON.stringify({
+        // Send ONLY to the opponent — the mover already updated their own board locally
+        const opponentSocket = socket === this.player1.socket ? this.player2.socket : this.player1.socket;
+        opponentSocket.send(JSON.stringify({
             type : MOVE,
             payload : move,
         }));
-        
-        this.player1.socket.send(JSON.stringify({
-            type : MOVE,
-            payload : move,
-        }))
         
     }
 }

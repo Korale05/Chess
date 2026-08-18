@@ -13,6 +13,7 @@ export const MOVE = "move";
 export const GAME_OVER = "game_over";
 
 
+
 export function Game() {
     const socket = useSocket();
     const chessRef = useRef(new Chess());
@@ -76,6 +77,21 @@ export function Game() {
         }
     },[board,Chess])
     
+    function handleLocalMove(move: { from: string, to: string }) {
+        if(!socket)return;
+        const moveResult = chessRef.current.move(move);
+        if (!moveResult) return; // shouldn't happen since ChessBoard only allows legal moves
+
+        setBoard(chessRef.current.board());
+        playMoveSound(moveResult, chessRef.current.isCheck());
+        setMove(prev => [...prev, moveResult.san]);
+
+        socket.send(JSON.stringify({
+            type: MOVE,
+            move: { from: move.from, to: move.to }
+        }));
+    }
+
     if (!socket) return <div>Connecting....</div>;
     return (
         <div className="flex justify-center items-center min-h-screen bg-slate-900 relative">
@@ -109,7 +125,7 @@ export function Game() {
                     }
 
                     <div className="w-fit">
-                        <ChessBoard socket={socket} board={board} chess={chessRef.current}  playerColor={playerColor}/>
+                        <ChessBoard socket={socket} board={board} chess={chessRef.current}  playerColor={playerColor} onMove={handleLocalMove}/>
                     </div>
 
                     {/* Bottom player (you) */}
